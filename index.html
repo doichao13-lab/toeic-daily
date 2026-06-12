@@ -1,0 +1,2116 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEIC Daily</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0f2f5;
+  --bg2: #ffffff;
+  --bg3: #f8f9fa;
+  --bg4: #dee2e6;
+  --border: rgba(0,0,0,0.09);
+  --border2: rgba(0,0,0,0.15);
+  --text: #1a1b2e;
+  --text2: #495057;
+  --text3: #868e96;
+  --blue: #3b7dd8;
+  --blue-dim: rgba(59,125,216,0.12);
+  --green: #2b8a3e;
+  --green-dim: rgba(43,138,62,0.12);
+  --purple: #6741d9;
+  --purple-dim: rgba(103,65,217,0.12);
+  --orange: #d9480f;
+  --orange-dim: rgba(217,72,15,0.12);
+  --red: #c92a2a;
+  --red-dim: rgba(201,42,42,0.12);
+  --teal: #0b7285;
+  --teal-dim: rgba(11,114,133,0.12);
+  --yellow: #e67700;
+  --yellow-dim: rgba(230,119,0,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --sidebar-w: 220px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; font-size: 14px; }
+
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w); min-width: var(--sidebar-w);
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+  display: flex; flex-direction: column;
+  padding: 20px 0; gap: 4px;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 0 18px 20px;
+  font-size: 18px; font-weight: 600; color: var(--blue);
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.sidebar-logo span { font-size: 22px; }
+.sidebar-section { padding: 6px 18px 2px; font-size: 10px; font-weight: 600; color: var(--text3); letter-spacing: 1.2px; text-transform: uppercase; margin-top: 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 18px; cursor: pointer;
+  color: var(--text2); font-size: 13.5px; font-weight: 400;
+  border-radius: 0; transition: all 0.15s;
+  position: relative; margin: 0 8px; border-radius: var(--radius-sm);
+}
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: var(--blue-dim); color: var(--blue); font-weight: 500; }
+.nav-item .nav-icon { width: 18px; text-align: center; font-size: 16px; }
+.nav-item .badge { margin-left: auto; background: var(--red); color: #fff; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px; }
+.sidebar-bottom {
+  margin-top: auto; padding: 16px;
+  border-top: 1px solid var(--border);
+}
+.streak-card {
+  background: linear-gradient(135deg, rgba(217,72,15,0.1), rgba(201,42,42,0.07));
+  border: 1px solid rgba(217,72,15,0.25);
+  border-radius: var(--radius-sm); padding: 12px;
+}
+.streak-num { font-size: 28px; font-weight: 700; color: var(--orange); line-height: 1; }
+.streak-label { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+/* MAIN */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar {
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg2);
+}
+.page-title { font-size: 18px; font-weight: 600; color: var(--text); }
+.page-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.xp-pill {
+  background: var(--yellow-dim); border: 1px solid rgba(224,175,104,0.3);
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; color: var(--yellow);
+}
+.level-pill {
+  background: var(--purple-dim); border: 1px solid rgba(103,65,217,0.3);
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; color: var(--purple);
+}
+.content { flex: 1; overflow-y: auto; padding: 24px 28px; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-track { background: transparent; }
+.content::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+
+/* CARDS */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.card-sm { padding: 16px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+
+/* STAT CARD */
+.stat-card {
+  border-radius: var(--radius); padding: 18px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.stat-icon { font-size: 22px; }
+.stat-val { font-size: 28px; font-weight: 700; line-height: 1; }
+.stat-label { font-size: 12px; color: var(--text2); }
+.stat-sub { font-size: 11px; color: var(--text3); }
+
+/* PROGRESS BAR */
+.progress-wrap { background: var(--bg4); border-radius: 6px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 6px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
+
+/* BUTTONS */
+.btn { padding: 9px 18px; border-radius: var(--radius-sm); border: none; cursor: pointer; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+.btn-primary { background: var(--blue); color: #ffffff; }
+.btn-primary:hover { background: #2b6cbf; transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.btn-ghost { background: var(--bg3); color: var(--text2); border: 1px solid var(--border2); }
+.btn-ghost:hover { background: var(--bg4); color: var(--text); }
+.btn-green { background: var(--green); color: #ffffff; }
+.btn-green:hover { background: #236932; }
+.btn-red { background: var(--red); color: #fff; }
+.btn-orange { background: var(--orange); color: #ffffff; }
+
+/* FLASHCARD */
+.flashcard-scene { perspective: 1000px; cursor: pointer; user-select: none; }
+.flashcard-card {
+  width: 100%; height: 220px;
+  position: relative; transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+}
+.flashcard-card.flipped { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute; width: 100%; height: 100%;
+  backface-visibility: hidden; border-radius: var(--radius);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 24px; border: 1px solid var(--border2);
+}
+.fc-front { background: linear-gradient(135deg, var(--bg3), var(--bg4)); }
+.fc-back { background: linear-gradient(135deg, rgba(59,125,216,0.1), rgba(103,65,217,0.1)); transform: rotateY(180deg); border-color: rgba(59,125,216,0.3); }
+.fc-word { font-size: 36px; font-weight: 700; color: var(--text); }
+.fc-type { font-size: 12px; color: var(--blue); background: var(--blue-dim); padding: 2px 10px; border-radius: 10px; margin-top: 8px; }
+.fc-meaning { font-size: 24px; font-weight: 600; color: var(--blue); text-align: center; }
+.fc-phonetic { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--text3); margin-top: 6px; }
+.fc-example { font-size: 13px; color: var(--text2); margin-top: 12px; text-align: center; font-style: italic; line-height: 1.5; }
+
+/* MC OPTIONS */
+.mc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+.mc-opt {
+  padding: 12px 16px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border2); cursor: pointer;
+  font-size: 13px; color: var(--text2); background: var(--bg3);
+  transition: all 0.15s; display: flex; align-items: center; gap: 10px;
+}
+.mc-opt:hover:not(.disabled) { border-color: var(--blue); color: var(--text); background: var(--blue-dim); }
+.mc-opt.correct { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+.mc-opt.wrong { border-color: var(--red); background: var(--red-dim); color: var(--red); }
+.mc-opt.disabled { cursor: default; }
+.mc-label { width: 22px; height: 22px; border-radius: 6px; background: var(--bg4); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+
+/* EXPLANATION BOX */
+.explain-box {
+  margin-top: 16px; padding: 14px;
+  background: rgba(59,125,216,0.08); border: 1px solid rgba(59,125,216,0.2);
+  border-radius: var(--radius-sm); font-size: 13px; color: var(--text2); line-height: 1.6;
+}
+
+/* READING */
+.reading-passage {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px;
+  font-size: 13.5px; line-height: 1.8; color: var(--text2);
+  max-height: 220px; overflow-y: auto;
+  margin-bottom: 16px;
+}
+.reading-passage::-webkit-scrollbar { width: 3px; }
+.reading-passage::-webkit-scrollbar-thumb { background: var(--bg4); }
+
+/* TEXTAREA */
+textarea {
+  width: 100%; padding: 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border2); background: var(--bg3);
+  color: var(--text); font-size: 13px; font-family: 'DM Sans', sans-serif;
+  resize: vertical; min-height: 80px; outline: none;
+}
+textarea:focus { border-color: var(--blue); }
+input[type=text] {
+  width: 100%; padding: 10px 14px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border2); background: var(--bg3);
+  color: var(--text); font-size: 13px; font-family: 'DM Sans', sans-serif;
+  outline: none;
+}
+input[type=text]:focus { border-color: var(--blue); }
+
+/* BADGE */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.badge-blue { background: var(--blue-dim); color: var(--blue); }
+.badge-green { background: var(--green-dim); color: var(--green); }
+.badge-purple { background: var(--purple-dim); color: var(--purple); }
+.badge-orange { background: var(--orange-dim); color: var(--orange); }
+.badge-red { background: var(--red-dim); color: var(--red); }
+.badge-teal { background: var(--teal-dim); color: var(--teal); }
+.badge-yellow { background: var(--yellow-dim); color: var(--yellow); }
+
+/* CALENDAR */
+.cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+.cal-day {
+  aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; cursor: pointer; font-weight: 500;
+}
+.cal-day.empty { cursor: default; }
+.cal-day.today { border: 1px solid var(--blue); color: var(--blue); background: var(--blue-dim); }
+.cal-day.done { background: var(--green-dim); color: var(--green); }
+.cal-day.missed { background: var(--red-dim); color: var(--red); }
+.cal-day.future { color: var(--text3); }
+.cal-day.header { color: var(--text3); font-size: 11px; cursor: default; }
+
+/* TIMER */
+.timer-display {
+  font-family: 'DM Mono', monospace; font-size: 32px; font-weight: 500;
+  color: var(--text); text-align: center; padding: 12px;
+  background: var(--bg3); border-radius: var(--radius-sm);
+}
+.timer-display.warning { color: var(--red); }
+
+/* DICT */
+.dict-result { margin-top: 16px; }
+.dict-word-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+.dict-word { font-size: 28px; font-weight: 700; }
+.dict-phonetic { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--text3); }
+.dict-pos { font-size: 12px; color: var(--blue); background: var(--blue-dim); padding: 2px 10px; border-radius: 10px; }
+.dict-meaning { font-size: 15px; font-weight: 500; color: var(--text); margin: 10px 0 6px; }
+.dict-example { font-size: 13px; color: var(--text2); font-style: italic; padding-left: 12px; border-left: 2px solid var(--border2); line-height: 1.5; }
+.dict-vn { font-size: 13px; color: var(--teal); margin-top: 6px; }
+.dict-divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+/* ROADMAP */
+.roadmap-week { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; }
+.roadmap-week-header { padding: 12px 16px; background: var(--bg3); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.roadmap-days { display: grid; grid-template-columns: repeat(7,1fr); }
+.roadmap-day { padding: 10px; border-right: 1px solid var(--border); text-align: center; }
+.roadmap-day:last-child { border-right: none; }
+.roadmap-day-num { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+.roadmap-day-topic { font-size: 10px; color: var(--text2); line-height: 1.3; }
+.roadmap-day.done .roadmap-day-num { color: var(--green); }
+.roadmap-day.today { background: var(--blue-dim); }
+.roadmap-day.today .roadmap-day-num { color: var(--blue); }
+
+/* SECTION HEADER */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.section-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.section-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+/* SPINNER */
+.spinner { width: 18px; height: 18px; border: 2px solid var(--border2); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* TABS (sub) */
+.sub-tabs { display: flex; gap: 4px; margin-bottom: 20px; background: var(--bg3); padding: 4px; border-radius: var(--radius-sm); }
+.sub-tab { flex: 1; padding: 7px 12px; border-radius: 6px; border: none; cursor: pointer; font-size: 12.5px; font-weight: 500; font-family: 'DM Sans', sans-serif; background: transparent; color: var(--text3); transition: all 0.15s; text-align: center; }
+.sub-tab.active { background: var(--bg2); color: var(--text); }
+
+/* MODULE DONE */
+.module-done { text-align: center; padding: 32px 20px; }
+.module-done-icon { font-size: 48px; margin-bottom: 12px; }
+.module-done-title { font-size: 18px; font-weight: 600; color: var(--green); margin-bottom: 6px; }
+.module-done-sub { font-size: 13px; color: var(--text3); }
+
+/* LOADING OVERLAY */
+#loading-overlay {
+  position: fixed; inset: 0; background: var(--bg); display: flex;
+  align-items: center; justify-content: center; flex-direction: column; gap: 16px; z-index: 1000;
+}
+.load-logo { font-size: 32px; font-weight: 700; color: var(--blue); }
+.load-sub { font-size: 13px; color: var(--text3); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .sidebar { width: 60px; min-width: 60px; }
+  .sidebar-logo span:last-child, .nav-item > span:not(.nav-icon), .sidebar-section, .streak-card .streak-label, .streak-num { display: none; }
+  .nav-item { justify-content: center; margin: 0 4px; }
+  .sidebar-bottom { padding: 8px; }
+}
+
+/* MISC */
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.gap-8 { gap: 8px; }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.gap-20 { gap: 20px; }
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-20 { margin-top: 20px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.ml-auto { margin-left: auto; }
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<div id="loading-overlay">
+  <div class="load-logo">📚 TOEIC Daily</div>
+  <div class="spinner"></div>
+  <div class="load-sub">Đang tải dữ liệu...</div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <span>📚</span>
+    <span>TOEIC Daily</span>
+  </div>
+  <div class="sidebar-section">HỌC TẬP</div>
+  <div class="nav-item active" data-page="dashboard" onclick="goto('dashboard')">
+    <span class="nav-icon">🏠</span><span>Dashboard</span>
+  </div>
+  <div class="nav-item" data-page="vocab" onclick="goto('vocab')">
+    <span class="nav-icon">📖</span><span>Từ vựng</span>
+  </div>
+  <div class="nav-item" data-page="grammar" onclick="goto('grammar')">
+    <span class="nav-icon">✏️</span><span>Ngữ pháp</span>
+  </div>
+  <div class="nav-item" data-page="reading" onclick="goto('reading')">
+    <span class="nav-icon">📄</span><span>Đọc hiểu</span>
+  </div>
+  <div class="nav-item" data-page="writing" onclick="goto('writing')">
+    <span class="nav-icon">💬</span><span>Luyện viết</span>
+  </div>
+  <div class="sidebar-section">CÔNG CỤ</div>
+  <div class="nav-item" data-page="dict" onclick="goto('dict')">
+    <span class="nav-icon">🔍</span><span>Từ điển</span>
+  </div>
+  <div class="nav-item" data-page="exam" onclick="goto('exam')">
+    <span class="nav-icon">📝</span><span>Đề thi</span>
+  </div>
+  <div class="nav-item" data-page="roadmap" onclick="goto('roadmap')">
+    <span class="nav-icon">🗺️</span><span>Lộ trình</span>
+  </div>
+  <div class="nav-item" data-page="cloze" onclick="goto('cloze')">
+    <span class="nav-icon">🔤</span><span>Điền từ</span>
+  </div>
+  <div class="nav-item" data-page="tense" onclick="goto('tense')">
+    <span class="nav-icon">⏱️</span><span>Điền thì</span>
+  </div>
+  <div class="nav-item" data-page="stress" onclick="goto('stress')">
+    <span class="nav-icon">🎵</span><span>Trọng âm</span>
+  </div>
+  <div class="nav-item" data-page="videos" onclick="goto('videos')">
+    <span class="nav-icon">▶️</span><span>Video học</span>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="streak-card">
+      <div class="streak-num" id="sb-streak">0</div>
+      <div class="streak-label">ngày liên tiếp 🔥</div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div>
+      <div class="page-title" id="page-title">Dashboard</div>
+      <div class="page-sub" id="page-sub">Hôm nay là ngày học thứ 1</div>
+    </div>
+    <div class="topbar-right">
+      <div class="level-pill" id="level-pill">🎖️ Beginner</div>
+      <div class="xp-pill" id="xp-pill">⚡ 0 XP</div>
+    </div>
+  </div>
+  <div class="content" id="content"></div>
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════════════════════════
+const ST = {
+  async g(k){
+    // Try window.storage (Claude artifact), fallback to localStorage
+    try {
+      if(window.storage){const r=await window.storage.get(k);return r?JSON.parse(r.value):null;}
+    } catch{}
+    try {const r=localStorage.getItem(k);return r?JSON.parse(r):null;} catch{return null;}
+  },
+  async s(k,v){
+    try {
+      if(window.storage){await window.storage.set(k,JSON.stringify(v));}
+    } catch{}
+    try {localStorage.setItem(k,JSON.stringify(v));} catch{}
+  },
+  async d(k){
+    try{if(window.storage)await window.storage.delete(k);}catch{}
+    try{localStorage.removeItem(k);}catch{}
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// CURRICULUM DATA — expanded, 365-day cycling
+// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// EXPANDED CURRICULUM DATA
+// ═══════════════════════════════════════════════════════════
+
+const TOPICS = [
+  "Office & Workplace","Business Travel","Finance & Banking","Human Resources","Marketing & Sales",
+  "Technology & IT","Customer Service","Health & Safety","Environment","Management",
+  "Contracts & Legal","Supply Chain","Manufacturing","Retail & Commerce","Real Estate",
+  "Education & Training","Media & Communication","Research & Development","Accounting","Logistics",
+  "Insurance","Investment","Entrepreneurship","Hospitality","Food & Beverage",
+  "Healthcare","Architecture","Energy","Agriculture","International Trade"
+];
+
+const VOCAB_POOL = {
+"Office & Workplace":[
+  {w:"schedule",t:"v/n",m:"lên lịch / lịch trình",ph:"/ˈskedʒuːl/",ex:"Please schedule a meeting for Monday.",vn:"Vui lòng lên lịch họp vào thứ Hai."},
+  {w:"deadline",t:"n",m:"hạn chót",ph:"/ˈdedlaɪn/",ex:"The deadline is next Friday.",vn:"Hạn chót là thứ Sáu tuần sau."},
+  {w:"colleague",t:"n",m:"đồng nghiệp",ph:"/ˈkɒliːɡ/",ex:"My colleague helped me with the project.",vn:"Đồng nghiệp đã giúp tôi với dự án."},
+  {w:"approve",t:"v",m:"phê duyệt",ph:"/əˈpruːv/",ex:"The manager needs to approve this.",vn:"Quản lý cần phê duyệt cái này."},
+  {w:"confirm",t:"v",m:"xác nhận",ph:"/kənˈfɜːrm/",ex:"Please confirm your attendance.",vn:"Vui lòng xác nhận sự tham dự."},
+  {w:"document",t:"n",m:"tài liệu",ph:"/ˈdɒkjumənt/",ex:"Sign the document and return it.",vn:"Ký tài liệu và trả lại."},
+  {w:"available",t:"adj",m:"rảnh / có sẵn",ph:"/əˈveɪləbl/",ex:"Are you available at 3pm?",vn:"Bạn có rảnh lúc 3 giờ không?"},
+  {w:"submit",t:"v",m:"nộp",ph:"/səbˈmɪt/",ex:"Submit your report before noon.",vn:"Nộp báo cáo trước buổi trưa."},
+  {w:"agenda",t:"n",m:"chương trình họp",ph:"/əˈdʒendə/",ex:"The agenda was sent to all staff.",vn:"Chương trình họp đã được gửi cho nhân viên."},
+  {w:"minutes",t:"n",m:"biên bản cuộc họp",ph:"/ˈmɪnɪts/",ex:"She took the minutes of the meeting.",vn:"Cô ấy ghi biên bản cuộc họp."},
+  {w:"allocate",t:"v",m:"phân bổ",ph:"/ˈæləkeɪt/",ex:"We need to allocate resources efficiently.",vn:"Chúng ta cần phân bổ nguồn lực hiệu quả."},
+  {w:"delegate",t:"v",m:"ủy quyền / giao việc",ph:"/ˈdelɪɡeɪt/",ex:"The manager delegated tasks to her team.",vn:"Quản lý giao việc cho nhóm của mình."},
+  {w:"correspondence",t:"n",m:"thư từ / trao đổi",ph:"/ˌkɒrɪˈspɒndəns/",ex:"All correspondence should be filed.",vn:"Tất cả thư từ cần được lưu trữ."},
+  {w:"premises",t:"n",m:"cơ sở / văn phòng",ph:"/ˈpremɪsɪz/",ex:"No smoking on the premises.",vn:"Không hút thuốc trong cơ sở."},
+  {w:"probationary",t:"adj",m:"thử việc",ph:"/prəˈbeɪʃəneri/",ex:"He is in his probationary period.",vn:"Anh ấy đang trong thời gian thử việc."}
+],
+"Business Travel":[
+  {w:"itinerary",t:"n",m:"lịch trình chuyến đi",ph:"/aɪˈtɪnəreri/",ex:"Please send the travel itinerary.",vn:"Vui lòng gửi lịch trình chuyến đi."},
+  {w:"accommodation",t:"n",m:"chỗ ở",ph:"/əˌkɒməˈdeɪʃn/",ex:"The company arranged accommodation.",vn:"Công ty đã thu xếp chỗ ở."},
+  {w:"departure",t:"n",m:"khởi hành",ph:"/dɪˈpɑːrtʃər/",ex:"Departure is at 8am from Gate 12.",vn:"Khởi hành lúc 8 giờ từ cửa 12."},
+  {w:"reservation",t:"n",m:"đặt trước",ph:"/ˌrezərˈveɪʃn/",ex:"I made a reservation at the hotel.",vn:"Tôi đã đặt phòng khách sạn."},
+  {w:"customs",t:"n",m:"hải quan",ph:"/ˈkʌstəmz/",ex:"Declare all items at customs.",vn:"Khai báo tất cả hàng hóa tại hải quan."},
+  {w:"baggage",t:"n",m:"hành lý",ph:"/ˈbæɡɪdʒ/",ex:"The baggage allowance is 20kg.",vn:"Tiêu chuẩn hành lý là 20kg."},
+  {w:"transit",t:"n",m:"quá cảnh",ph:"/ˈtrænzɪt/",ex:"We have a 3-hour transit in Singapore.",vn:"Chúng tôi có 3 giờ quá cảnh ở Singapore."},
+  {w:"boarding pass",t:"n",m:"thẻ lên máy bay",ph:"/ˈbɔːrdɪŋ pæs/",ex:"Have your boarding pass ready.",vn:"Chuẩn bị sẵn thẻ lên máy bay."},
+  {w:"reimbursement",t:"n",m:"hoàn tiền chi phí",ph:"/ˌriːɪmˈbɜːrsmənt/",ex:"Submit receipts for reimbursement.",vn:"Nộp biên lai để hoàn tiền."},
+  {w:"visa",t:"n",m:"thị thực",ph:"/ˈviːzə/",ex:"You need a business visa.",vn:"Bạn cần thị thực doanh nghiệp."},
+  {w:"layover",t:"n",m:"thời gian chờ nối chuyến",ph:"/ˈleɪoʊvər/",ex:"We have a 5-hour layover in Dubai.",vn:"Chúng tôi có 5 giờ chờ nối chuyến ở Dubai."},
+  {w:"fare",t:"n",m:"giá vé",ph:"/feər/",ex:"The business class fare is expensive.",vn:"Giá vé hạng thương gia rất đắt."},
+  {w:"complimentary",t:"adj",m:"miễn phí (tặng kèm)",ph:"/ˌkɒmplɪˈmentri/",ex:"Breakfast is complimentary for all guests.",vn:"Bữa sáng miễn phí cho tất cả khách."},
+  {w:"concierge",t:"n",m:"nhân viên tiếp tân khách sạn",ph:"/ˈkɒnsieɪrʒ/",ex:"Ask the concierge for restaurant tips.",vn:"Hỏi nhân viên tiếp tân về nhà hàng."},
+  {w:"check-in",t:"v/n",m:"làm thủ tục / đăng ký nhận phòng",ph:"/tʃek ɪn/",ex:"Online check-in opens 24 hours before departure.",vn:"Check-in trực tuyến mở 24 giờ trước khi bay."}
+],
+"Finance & Banking":[
+  {w:"invoice",t:"n",m:"hóa đơn",ph:"/ˈɪnvɔɪs/",ex:"Send the invoice to accounting.",vn:"Gửi hóa đơn cho kế toán."},
+  {w:"revenue",t:"n",m:"doanh thu",ph:"/ˈrevənjuː/",ex:"Revenue increased by 15% this quarter.",vn:"Doanh thu tăng 15% quý này."},
+  {w:"profit",t:"n",m:"lợi nhuận",ph:"/ˈprɒfɪt/",ex:"The company reported record profits.",vn:"Công ty báo cáo lợi nhuận kỷ lục."},
+  {w:"budget",t:"n",m:"ngân sách",ph:"/ˈbʌdʒɪt/",ex:"Stay within the allocated budget.",vn:"Giữ trong phạm vi ngân sách được phân bổ."},
+  {w:"transaction",t:"n",m:"giao dịch",ph:"/trænˈzækʃn/",ex:"The transaction was completed.",vn:"Giao dịch đã hoàn thành."},
+  {w:"interest rate",t:"n",m:"lãi suất",ph:"/ˈɪntrəst reɪt/",ex:"The annual interest rate is 5%.",vn:"Lãi suất hàng năm là 5%."},
+  {w:"cash flow",t:"n",m:"dòng tiền",ph:"/kæʃ fləʊ/",ex:"Managing cash flow is critical.",vn:"Quản lý dòng tiền rất quan trọng."},
+  {w:"asset",t:"n",m:"tài sản",ph:"/ˈæset/",ex:"Total assets exceed $10 million.",vn:"Tổng tài sản vượt 10 triệu đô."},
+  {w:"liability",t:"n",m:"nợ phải trả",ph:"/ˌlaɪəˈbɪlɪti/",ex:"They reduced liabilities by 20%.",vn:"Họ giảm nợ phải trả 20%."},
+  {w:"dividend",t:"n",m:"cổ tức",ph:"/ˈdɪvɪdend/",ex:"Shareholders receive a dividend in December.",vn:"Cổ đông nhận cổ tức vào tháng 12."},
+  {w:"audit",t:"n/v",m:"kiểm toán",ph:"/ˈɔːdɪt/",ex:"The annual audit begins next week.",vn:"Kiểm toán hàng năm bắt đầu tuần sau."},
+  {w:"depreciation",t:"n",m:"khấu hao",ph:"/dɪˌpriːʃiˈeɪʃn/",ex:"Equipment depreciation is recorded annually.",vn:"Khấu hao thiết bị được ghi nhận hàng năm."},
+  {w:"equity",t:"n",m:"vốn chủ sở hữu",ph:"/ˈekwɪti/",ex:"Shareholders equity rose last quarter.",vn:"Vốn chủ sở hữu tăng quý trước."},
+  {w:"overhead",t:"n",m:"chi phí hoạt động",ph:"/ˈoʊvərhed/",ex:"We need to reduce overhead costs.",vn:"Chúng ta cần giảm chi phí hoạt động."},
+  {w:"reconcile",t:"v",m:"đối soát / điều chỉnh",ph:"/ˈrekənsaɪl/",ex:"Reconcile the accounts by month end.",vn:"Đối soát tài khoản trước cuối tháng."}
+]
+};
+
+// Grammar pool - 15 questions per day covering different topics
+const GRAMMAR_POOL = [
+  // Simple Present
+  {q:"She _____ to the office every day by bus.",opts:["go","goes","going","gone"],c:1,topic:"Simple Present",exp:"Chủ ngữ số ít (she) + V-s/es trong thì Hiện tại đơn.",wrong:"Nhiều người chọn 'go' vì nhầm quy tắc.",why:"Với chủ ngữ he/she/it, thêm -s/-es vào động từ.",fix:"Đáp án: <strong>goes</strong>. Quy tắc: She/He/It + V-s."},
+  // Simple Past
+  {q:"They _____ the report yesterday afternoon.",opts:["finish","finishes","finished","finishing"],c:2,topic:"Simple Past",exp:"'Yesterday' → thì Quá khứ đơn → V-ed.",wrong:"Chọn 'finish' vì quên chia thì.",why:"'Yesterday' là dấu hiệu của Simple Past.",fix:"Đáp án: <strong>finished</strong>. Thêm -ed cho động từ thường."},
+  // Future
+  {q:"The meeting _____ at 9am tomorrow.",opts:["start","starts","will start","started"],c:2,topic:"Future (will)",exp:"'Tomorrow' → tương lai → will + V nguyên thể.",wrong:"Chọn 'starts' vì nhầm với lịch cố định.",why:"'Tomorrow' + sự kiện chưa xảy ra → will + V.",fix:"Đáp án: <strong>will start</strong>. Công thức: will + V (bare infinitive)."},
+  // Present Perfect
+  {q:"She _____ working here for three years.",opts:["is","was","has been","have been"],c:2,topic:"Present Perfect",exp:"'For 3 years' + hành động kéo dài → Present Perfect.",wrong:"Chọn 'is' vì thấy đang làm việc hiện tại.",why:"'For + thời gian' chỉ khoảng thời gian kéo dài đến nay → have/has + V3.",fix:"Đáp án: <strong>has been</strong>. She (số ít) → has been."},
+  // Passive Voice
+  {q:"The documents _____ by the manager before noon.",opts:["sign","signed","are signed","are signing"],c:2,topic:"Passive Voice",exp:"Câu bị động: to be + V3.",wrong:"Chọn 'signed' (V3 đơn thuần) thiếu trợ động từ.",why:"Passive = am/is/are + V3. Documents là vật → bị động.",fix:"Đáp án: <strong>are signed</strong>. Cấu trúc: S + is/are + V3."},
+  // Comparatives
+  {q:"This report is _____ than the previous one.",opts:["comprehensive","more comprehensive","most comprehensive","the comprehensive"],c:1,topic:"Comparatives",exp:"So sánh hơn với tính từ dài dùng 'more'.",wrong:"Chọn 'most comprehensive' (so sánh nhất, không phải hơn).",why:"So sánh hơn (than): more + adj dài. Adj ngắn: adj + -er.",fix:"Đáp án: <strong>more comprehensive</strong>. Công thức: more + adj + than."},
+  // Conditional Type 1
+  {q:"If sales _____, we will hire more staff.",opts:["improve","improves","improved","improving"],c:0,topic:"Conditional Type 1",exp:"Điều kiện loại 1: If + Simple Present, will + V.",wrong:"Chọn 'improves' vì thấy chủ ngữ số ít.",why:"Trong mệnh đề If loại 1, dùng Simple Present bình thường (không thêm -s).",fix:"Đáp án: <strong>improve</strong>. Mệnh đề If: dùng V nguyên thể (số nhiều)."},
+  // Modal Verbs
+  {q:"Employees _____ wear safety helmets on the factory floor.",opts:["should","might","must","can"],c:2,topic:"Modal Verbs",exp:"'Must' diễn tả quy định bắt buộc.",wrong:"Chọn 'should' (lời khuyên, không phải bắt buộc).",why:"Must = quy định/nghĩa vụ. Should = lời khuyên. Might = khả năng.",fix:"Đáp án: <strong>must</strong>. Phân biệt: must (bắt buộc) vs should (nên)."},
+  // Reported Speech
+  {q:"He said that the project _____ completed by Friday.",opts:["will be","would be","has been","is"],c:1,topic:"Reported Speech",exp:"Câu gián tiếp: will → would.",wrong:"Chọn 'will be' vì quên quy tắc backshift.",why:"Động từ tường thuật (said) ở quá khứ → will → would trong mệnh đề phụ.",fix:"Đáp án: <strong>would be</strong>. Backshift: will → would, can → could."},
+  // Gerunds & Infinitives
+  {q:"The team agreed _____ the proposal next week.",opts:["review","reviewing","to review","reviewed"],c:2,topic:"Gerunds & Infinitives",exp:"'Agree' theo sau bởi to-infinitive.",wrong:"Chọn 'reviewing' (V-ing) sau agree.",why:"Agree + to + V nguyên thể. Enjoy/avoid/consider + V-ing.",fix:"Đáp án: <strong>to review</strong>. Ghi nhớ: agree to, decide to, plan to."},
+  // Relative Clauses
+  {q:"The manager _____ oversees this project has 10 years of experience.",opts:["who","which","whom","whose"],c:0,topic:"Relative Clauses",exp:"Mệnh đề quan hệ chỉ người làm chủ ngữ → who.",wrong:"Chọn 'whom' vì nhầm vai trò chủ ngữ/tân ngữ.",why:"Who = chủ ngữ (who oversees). Whom = tân ngữ (whom we hired).",fix:"Đáp án: <strong>who</strong>. Who thay thế cho chủ ngữ chỉ người."},
+  // Articles
+  {q:"Please send _____ email to all department heads.",opts:["a","an","the","—"],c:0,topic:"Articles",exp:"'Email' bắt đầu bằng phụ âm (e đọc là /i/) → 'an' không, nhưng đây là 'email' thông thường → 'an email'.",wrong:"Chọn 'the' vì tưởng email cụ thể.",why:"'An email' = một email (chưa xác định). 'The email' = email cụ thể đã đề cập.",fix:"Đáp án: <strong>an</strong>. 'Email' bắt đầu bằng nguyên âm /e/ → dùng 'an'."},
+  // Prepositions
+  {q:"The conference will be held _____ March 15th.",opts:["in","on","at","by"],c:1,topic:"Prepositions of Time",exp:"Ngày cụ thể dùng 'on'.",wrong:"Chọn 'in' vì thấy 'March'.",why:"On + ngày (March 15th). In + tháng/năm (March, 2024). At + giờ (9am).",fix:"Đáp án: <strong>on</strong>. On + specific date. In + month/year. At + time."},
+  // Subject-Verb Agreement
+  {q:"Neither the CEO nor the directors _____ aware of the issue.",opts:["was","is","were","are"],c:2,topic:"Subject-Verb Agreement",exp:"Neither...nor: chia theo chủ ngữ GẦN NHẤT (directors = số nhiều → were).",wrong:"Chọn 'was' vì chú ý CEO (số ít).",why:"Quy tắc proximity: Neither A nor B + V theo B. Directors (plural) → were.",fix:"Đáp án: <strong>were</strong>. Neither A nor B → chia theo B (directors)."},
+  // Despite/Although
+  {q:"_____ the bad weather, the event continued as planned.",opts:["Although","Despite","Because","However"],c:1,topic:"Connectors",exp:"'Despite' + noun phrase. 'Although' + clause.",wrong:"Chọn 'Although' nhưng sau đó là noun phrase, không phải mệnh đề.",why:"Despite/In spite of + noun/V-ing. Although/Even though + subject + verb.",fix:"Đáp án: <strong>Despite</strong>. Despite + the bad weather (noun phrase)."}
+];
+
+// Cloze test (fill in vocabulary)
+const CLOZE_POOL = [
+  {sentence:"Please _____ your attendance at the conference by Friday.",opts:["confirm","refuse","ignore","postpone"],c:0,word:"confirm",tip:"confirm = xác nhận. Hay gặp trong email lịch sự."},
+  {sentence:"The project _____ was extended due to unexpected delays.",opts:["deadline","salary","budget","schedule"],c:0,word:"deadline",tip:"deadline = hạn chót. 'Extend the deadline' = gia hạn."},
+  {sentence:"All employees must _____ their weekly reports by Monday morning.",opts:["submit","cancel","review","approve"],c:0,word:"submit",tip:"submit = nộp. 'Submit a report/application'."},
+  {sentence:"The manager _____ the new marketing strategy after careful consideration.",opts:["approved","ignored","rejected","delayed"],c:0,word:"approved",tip:"approve = phê duyệt. Past tense: approved."},
+  {sentence:"The meeting _____ included discussions about next year's budget.",opts:["agenda","minutes","memo","notice"],c:0,word:"agenda",tip:"agenda = chương trình họp. 'Agenda items' = các mục trong chương trình."},
+  {sentence:"We need to _____ additional funds for the new IT infrastructure.",opts:["allocate","reduce","transfer","withdraw"],c:0,word:"allocate",tip:"allocate = phân bổ. 'Allocate resources/budget'."},
+  {sentence:"The sales team exceeded their _____ for the third consecutive quarter.",opts:["target","expense","revenue","salary"],c:0,word:"target",tip:"target = chỉ tiêu/mục tiêu. 'Exceed/meet/miss the target'."},
+  {sentence:"Please ensure that all _____ are filed in the correct folders.",opts:["documents","equipment","payments","schedules"],c:0,word:"documents",tip:"documents = tài liệu. 'File/store/retrieve documents'."},
+  {sentence:"The company decided to _____ the launch of the new product.",opts:["postpone","accelerate","confirm","announce"],c:0,word:"postpone",tip:"postpone = hoãn lại. Synonyms: delay, put off."},
+  {sentence:"New employees must complete a _____ period of three months before being confirmed.",opts:["probationary","mandatory","fiscal","annual"],c:0,word:"probationary",tip:"probationary period = thời gian thử việc."}
+];
+
+// Fill in the blank - tense/form
+const TENSE_POOL = [
+  {sentence:"By the time the manager arrived, the team _____ (finish) the presentation.",answer:"had finished",hint:"finish",options:["finished","had finished","has finished","would finish"],c:1,tense:"Past Perfect",exp:"'By the time + past' → Past Perfect cho hành động hoàn thành trước."},
+  {sentence:"The new software _____ (install) by the IT team next Monday.",answer:"will be installed",hint:"install",options:["will install","will be installed","is installing","installed"],c:1,tense:"Future Passive",exp:"Tương lai bị động: will be + V3."},
+  {sentence:"She _____ (work) on this project since January.",answer:"has been working",hint:"work",options:["works","worked","has been working","is working"],c:2,tense:"Present Perfect Continuous",exp:"'Since January' → Present Perfect Continuous cho hành động kéo dài."},
+  {sentence:"If he _____ (study) harder, he would pass the TOEIC exam.",answer:"studied",hint:"study",options:["studies","studied","had studied","will study"],c:1,tense:"Conditional Type 2",exp:"Điều kiện loại 2 (không thực tế): If + V2, would + V."},
+  {sentence:"The report _____ (submit) to the board by the end of this week.",answer:"will be submitted",hint:"submit",options:["will submit","will be submitted","is submitted","has submitted"],c:1,tense:"Future Passive",exp:"Tương lai bị động: will be + V3."},
+  {sentence:"When I arrived at the office, everyone _____ (leave) already.",answer:"had left",hint:"leave",options:["left","has left","had left","was leaving"],c:2,tense:"Past Perfect",exp:"Hành động xảy ra trước trong quá khứ → Past Perfect."},
+  {sentence:"The company _____ (expand) its operations since 2015.",answer:"has been expanding",hint:"expand",options:["expands","expanded","has been expanding","had expanded"],c:2,tense:"Present Perfect Continuous",exp:"'Since 2015' + hành động liên tục → Present Perfect Continuous."},
+  {sentence:"All applications _____ (review) by the HR department next week.",answer:"will be reviewed",hint:"review",options:["will review","will be reviewed","are reviewing","reviewed"],c:1,tense:"Future Passive",exp:"Tương lai bị động: will be + V3."},
+  {sentence:"By 2025, the company _____ (operate) for 50 years.",answer:"will have been operating",hint:"operate",options:["will operate","will have operated","will have been operating","operates"],c:2,tense:"Future Perfect Continuous",exp:"By 2025 + hành động liên tục → Future Perfect Continuous."},
+  {sentence:"I wish I _____ (know) about the meeting earlier.",answer:"had known",hint:"know",options:["know","knew","had known","would know"],c:2,tense:"Subjunctive (wish)",exp:"'Wish + past perfect' để diễn tả tiếc nuối về quá khứ."}
+];
+
+// Stress patterns
+const STRESS_POOL = [
+  {q:"Từ nào có trọng âm ở âm tiết KHÁC với các từ còn lại?",words:["deCIDE","rePORT","ANswer","beGIN"],correct:2,explain:"'ANswer' có trọng âm ở âm tiết 1. Ba từ kia có trọng âm ở âm tiết 2.",tip:"Động từ 2 âm tiết thường có trọng âm ở âm tiết 2. Danh từ/tính từ thường ở âm tiết 1."},
+  {q:"Từ nào có trọng âm ở âm tiết GIỐNG với từ 'reCORD' (verb)?",words:["PROtest","rePORT","INcrease","EXport"],correct:1,explain:"'rePORT' có trọng âm ở âm tiết 2, giống 'reCORD' (verb).",tip:"Nhiều từ danh từ/động từ đồng âm: REcord (n) vs reCORD (v)."},
+  {q:"Chọn từ có trọng âm ở âm tiết THỨ NHẤT:",words:["dePART","comPANY","exPERT","reLAX"],correct:1,explain:"'COMpany' có trọng âm ở âm tiết 1: COM-pa-ny.",tip:"Danh từ 3 âm tiết nhiều trường hợp nhấn âm tiết 1."},
+  {q:"Từ nào có trọng âm khác với các từ còn lại?",words:["PROduct","PROfit","proFESSion","PROgram"],correct:2,explain:"'proFESSion' nhấn âm tiết 2. Ba từ còn lại nhấn âm tiết 1.",tip:"Hậu tố '-ion' thường kéo trọng âm vào âm tiết ngay trước nó."},
+  {q:"Từ 'present' khi dùng như DANH TỪ có trọng âm ở đâu?",words:["PREsent","preSENT","presenT","PrESent"],correct:0,explain:"PREsent (n/adj) = quà/hiện tại. preSENT (v) = trình bày.",tip:"Quy tắc noun/verb stress shift: REcord(n)/reCORD(v), PROtest(n)/proTEST(v)."},
+  {q:"Chọn từ có trọng âm ở âm tiết THỨ HAI:",words:["MANager","adMINistrate","DIRector","SECretary"],correct:1,explain:"'adMINistrate' nhấn âm tiết 2. MANager, DIRector, SECretary nhấn âm tiết 1.",tip:"Từ bắt đầu bằng ad-, be-, com-, de-, pro- thường nhấn ở âm tiết 2."},
+  {q:"Từ nào có CÁCH ĐỌC TRỌNG ÂM giống với 'eMPLOYee'?",words:["CONtract","exPERIence","DEpartment","COLleague"],correct:1,explain:"'exPERIence' nhấn âm tiết 2, giống 'eMPLOYee'.",tip:"Từ có hậu tố -ee thường nhấn vào -ee: emPLOYEE, trainEE."},
+  {q:"Trong câu hỏi TOEIC, từ nào có trọng âm KHÁC với các từ còn lại?",words:["efFICient","efFECtive","EFfort","enCOUrage"],correct:2,explain:"'EFfort' nhấn âm tiết 1. Ba từ còn lại nhấn âm tiết 2.",tip:"Từ 'effort' là ngoại lệ phổ biến — học thuộc."},
+  {q:"Từ 'OVERtime' (làm thêm giờ) có trọng âm ở đâu?",words:["o-VER-time","O-ver-time","o-ver-TIME","O-VER-time"],correct:1,explain:"'OVertime' nhấn âm tiết 1: O-ver-time.",tip:"Các từ ghép (compound nouns) thường nhấn phần đầu: OVertime, UNderline, OUTput."},
+  {q:"Chọn từ mà trọng âm THAY ĐỔI khi chuyển từ danh từ sang động từ:",words:["travel","manage","record","schedule"],correct:2,explain:"'REcord' (n) vs 'reCORD' (v) — trọng âm thay đổi.",tip:"Các cặp noun/verb đổi trọng âm: PERmit/perMIT, INcrease/inCREASE, OBject/obJECT."}
+];
+
+// Reading passages - 2 per day, 5 questions each
+const READING_PASSAGES = [
+  {
+    title:"Office Memo",
+    passage:`MEMORANDUM
+
+To: All Department Heads
+From: Human Resources Department
+Date: March 10, 2024
+Subject: Annual Performance Review Process
+
+This memo is to inform all department heads that the annual performance review cycle will commence on April 1st. Each manager is responsible for scheduling one-on-one meetings with their direct reports during the month of April.
+
+Performance evaluations should focus on: (1) achievement of annual targets, (2) professional development, (3) teamwork and collaboration, and (4) areas for improvement.
+
+All completed evaluation forms must be submitted to HR no later than April 30th. Employees who receive an overall rating of "Exceeds Expectations" will be considered for merit increases effective June 1st.
+
+Please contact the HR team if you have any questions regarding the evaluation criteria or process.`,
+    questions:[
+      {q:"When will the performance review cycle begin?",opts:["March 10th","March 31st","April 1st","April 30th"],c:2},
+      {q:"Who is responsible for scheduling review meetings?",opts:["HR department","Each employee","Each manager","The CEO"],c:2},
+      {q:"How many areas does the performance evaluation focus on?",opts:["Two","Three","Four","Five"],c:2},
+      {q:"What is the deadline for submitting evaluation forms?",opts:["March 10th","April 1st","April 15th","April 30th"],c:3},
+      {q:"What benefit do employees with 'Exceeds Expectations' receive?",opts:["Promotion","Extra vacation","Merit increases","Bonus payment"],c:2}
+    ]
+  },
+  {
+    title:"Job Advertisement",
+    passage:`POSITION AVAILABLE: Senior Marketing Manager
+
+GlobalTech Solutions is seeking an experienced Senior Marketing Manager to join our dynamic team in Ho Chi Minh City. This is a full-time position reporting directly to the Chief Marketing Officer.
+
+Key Responsibilities:
+• Develop and implement comprehensive marketing strategies
+• Manage a team of 8 marketing professionals
+• Oversee digital marketing campaigns across multiple platforms
+• Collaborate with sales teams to align marketing and revenue goals
+• Prepare monthly performance reports for senior leadership
+
+Requirements:
+• Bachelor's degree in Marketing, Business, or related field
+• Minimum 5 years of experience in marketing management
+• Proven track record of successful campaign management
+• Excellent communication skills in both English and Vietnamese
+• Proficiency in marketing analytics tools
+
+Salary: Competitive package commensurate with experience
+Application Deadline: March 31, 2024`,
+    questions:[
+      {q:"Who does the Senior Marketing Manager report to?",opts:["HR Director","Sales Manager","Chief Marketing Officer","CEO"],c:2},
+      {q:"How many marketing professionals will the manager oversee?",opts:["5","6","8","10"],c:2},
+      {q:"What is the minimum experience required?",opts:["3 years","4 years","5 years","7 years"],c:2},
+      {q:"Which language skills are required for this position?",opts:["English only","Vietnamese only","English and French","English and Vietnamese"],c:3},
+      {q:"When is the application deadline?",opts:["March 10th","March 15th","March 31st","April 30th"],c:2}
+    ]
+  },
+  {
+    title:"Company Notice",
+    passage:`IMPORTANT NOTICE: Office Relocation
+
+We are pleased to announce that our company will be relocating to new premises effective May 1, 2024. Our new office will be situated at 250 Nguyen Thi Minh Khai Street, District 3, Ho Chi Minh City.
+
+The new facility offers significantly improved working conditions, including:
+• Modern open-plan workspaces
+• State-of-the-art conference facilities (10 meeting rooms)
+• On-site cafeteria and wellness center
+• Underground parking for 150 vehicles
+• Direct access to public transportation
+
+During the transition period (April 20-30), some services may be temporarily disrupted. IT systems will be migrated over the weekend of April 27-28. Employees should back up all important files before April 20th.
+
+All staff are required to update their contact information with the new office address. Business cards and company letterhead will be reprinted with the new address. For any queries, please contact facilities@globaltech.com.`,
+    questions:[
+      {q:"When will the office relocation take effect?",opts:["April 20th","April 27th","May 1st","May 10th"],c:2},
+      {q:"How many meeting rooms does the new office have?",opts:["5","8","10","15"],c:2},
+      {q:"When will IT systems be migrated?",opts:["April 20-21","April 25-26","April 27-28","April 29-30"],c:2},
+      {q:"What must employees do before April 20th?",opts:["Update business cards","Back up important files","Confirm new address","Submit relocation forms"],c:1},
+      {q:"Who should employees contact for queries?",opts:["HR department","IT department","Facilities team","Management team"],c:2}
+    ]
+  },
+  {
+    title:"Business Email",
+    passage:`From: Sarah Chen <s.chen@innovatech.com>
+To: David Park <d.park@globalparts.com>
+Subject: RE: Quarterly Supply Agreement — Contract Renewal
+
+Dear Mr. Park,
+
+Thank you for your prompt response regarding the renewal of our quarterly supply agreement. I am pleased to inform you that our procurement team has reviewed your revised proposal and we are largely in agreement with the terms presented.
+
+However, we would like to request a minor adjustment to the payment terms. Currently, the contract stipulates payment within 30 days of invoice. We would prefer to extend this to 45 days, given the volume of transactions involved. In return, we are prepared to commit to a 10% increase in our quarterly order volume.
+
+Additionally, we would appreciate if the warranty period for defective parts could be extended from 6 months to 12 months. This would align better with our internal quality assurance processes.
+
+Please review these proposed amendments and let us know your thoughts at your earliest convenience. We are hopeful that we can finalize the agreement before the end of this month.
+
+Best regards,
+Sarah Chen
+Procurement Manager, InnovaTech`,
+    questions:[
+      {q:"What is the purpose of this email?",opts:["To place a new order","To discuss contract renewal terms","To complain about product quality","To request a meeting"],c:1},
+      {q:"What change is requested regarding payment terms?",opts:["From 45 to 30 days","From 30 to 45 days","From 60 to 30 days","From 45 to 60 days"],c:1},
+      {q:"What does InnovaTech offer in return for the payment extension?",opts:["A price reduction","Early payment","10% increase in order volume","A longer contract period"],c:2},
+      {q:"What change is requested for the warranty period?",opts:["From 3 to 6 months","From 6 to 9 months","From 6 to 12 months","From 12 to 18 months"],c:2},
+      {q:"By when does Sarah hope to finalize the agreement?",opts:["Next quarter","End of this month","Within 45 days","Before January"],c:1}
+    ]
+  }
+];
+
+// Writing prompts - 5 per day
+const WRITING_POOL = [
+  {p:"Viết email ngắn (2-3 câu) xin lỗi vì không thể tham dự cuộc họp và đề nghị dời sang thứ Tư.",hint:"apologize, unable to attend, reschedule, Wednesday",sample:"I sincerely apologize for being unable to attend tomorrow's meeting due to a prior commitment. I would like to request that we reschedule the meeting to Wednesday afternoon if that is convenient for you."},
+  {p:"Viết câu tiếng Anh xác nhận đã nhận đơn hàng và thông báo thời gian giao hàng dự kiến.",hint:"confirm, order received, delivery, expect",sample:"I would like to confirm that we have received your order and expect delivery to be completed within 5-7 business days."},
+  {p:"Viết câu tiếng Anh đề xuất cải thiện quy trình làm việc hiện tại của nhóm.",hint:"suggest, improve, process, efficiency, team",sample:"I would like to suggest that we implement a weekly status update meeting to improve our team's communication and overall efficiency."},
+  {p:"Viết câu tiếng Anh thông báo cho khách hàng về sự thay đổi giá dịch vụ từ tháng tới.",hint:"inform, price adjustment, effective, next month",sample:"We would like to inform you that due to rising operational costs, there will be a price adjustment for our services effective from next month."},
+  {p:"Viết câu yêu cầu phòng kế toán cung cấp báo cáo tài chính quý 1.",hint:"request, accounting, financial report, Q1, provide",sample:"I would like to request that the accounting team provide the Q1 financial report by the end of this week for our upcoming board meeting."}
+];
+
+// YouTube videos - curated TOEIC playlist
+const VIDEOS = [
+  {id:"UU_HCFI7RaM",title:"TOEIC Part 5 & 6 — Grammar Shortcuts",channel:"TOEIC Master",duration:"18:24",topic:"Ngữ pháp Part 5+6",desc:"Kỹ thuật làm nhanh Part 5 và 6, tập trung vào các điểm ngữ pháp hay ra thi.",tags:["grammar","part5","part6"]},
+  {id:"QbpBMOdWPlU",title:"TOEIC Vocabulary — Business English 500 Words",channel:"TOEIC Daily",duration:"22:15",topic:"Từ vựng Business",desc:"500 từ vựng kinh doanh phổ biến nhất trong đề thi TOEIC.",tags:["vocabulary","business"]},
+  {id:"2HEU6DXzRYI",title:"TOEIC Reading Part 7 — Skimming & Scanning",channel:"E2 TOEIC",duration:"15:40",topic:"Đọc hiểu Part 7",desc:"Kỹ thuật đọc nhanh và tìm đáp án hiệu quả trong Part 7.",tags:["reading","part7"]},
+  {id:"3UmZXs7Q7jU",title:"English Pronunciation — Word Stress Rules",channel:"Rachel's English",duration:"12:30",topic:"Trọng âm từ",desc:"Quy tắc trọng âm tiếng Anh — nền tảng cho phần Listening TOEIC.",tags:["pronunciation","stress"]},
+  {id:"rBAMGaMVd-4",title:"TOEIC Listening — Part 1 & 2 Tips",channel:"TOEIC Official",duration:"20:00",topic:"Listening Part 1+2",desc:"Chiến lược làm bài Listening Part 1 (Photographs) và Part 2 (Q&A).",tags:["listening","part1","part2"]},
+  {id:"lzVMBTG0nSM",title:"Business Email Writing — Professional English",channel:"English with Lucy",duration:"16:45",topic:"Viết email công việc",desc:"Cách viết email kinh doanh chuyên nghiệp bằng tiếng Anh.",tags:["writing","email","business"]},
+  {id:"dBFcRhOqYKE",title:"TOEIC Part 3 & 4 — Conversation & Talks",channel:"E2 TOEIC",duration:"19:20",topic:"Listening Part 3+4",desc:"Cách nghe hiểu hội thoại và bài nói trong TOEIC Listening.",tags:["listening","part3","part4"]},
+  {id:"AkXMtB5G-Dw",title:"Common TOEIC Grammar Mistakes",channel:"TOEIC Master",duration:"14:30",topic:"Lỗi ngữ pháp thường gặp",desc:"Top 10 lỗi ngữ pháp người Việt hay mắc trong TOEIC.",tags:["grammar","common mistakes"]},
+  {id:"GWmxcHKKUZo",title:"TOEIC Vocabulary in Context — Office",channel:"TOEIC Daily",duration:"11:20",topic:"Từ vựng văn phòng",desc:"Từ vựng TOEIC về chủ đề văn phòng và công sở trong ngữ cảnh thực.",tags:["vocabulary","office"]},
+  {id:"kXtg9hnjHKM",title:"How to Score 700+ on TOEIC",channel:"Study Hall",duration:"25:00",topic:"Chiến lược thi TOEIC",desc:"Lộ trình và chiến lược để đạt 700+ điểm TOEIC từ đầu.",tags:["strategy","tips"]}
+];
+
+
+
+function buildLesson(dayNum) {
+  const topicIdx = (dayNum - 1) % TOPICS.length;
+  const topic = TOPICS[topicIdx];
+  const difficulty = Math.min(5, Math.floor((dayNum - 1) / 30) + 1);
+
+  // Pick vocab for topic (15 words)
+  const vocab = (VOCAB_POOL[topic] || VOCAB_POOL["Office & Workplace"]).slice(0, 15);
+
+  // Pick 15 grammar questions cycling through pool
+  const gStart = ((dayNum - 1) * 3) % GRAMMAR_POOL.length;
+  const grammar = [];
+  for(let i = 0; i < 15; i++) grammar.push(GRAMMAR_POOL[(gStart + i) % GRAMMAR_POOL.length]);
+
+  // Pick 2 reading passages (10 questions total)
+  const rStart = ((dayNum - 1) * 2) % READING_PASSAGES.length;
+  const reading = [
+    READING_PASSAGES[rStart % READING_PASSAGES.length],
+    READING_PASSAGES[(rStart + 1) % READING_PASSAGES.length]
+  ];
+
+  // Pick 5 writing prompts
+  const wStart = ((dayNum - 1) * 2) % WRITING_POOL.length;
+  const writing = [];
+  for(let i = 0; i < 5; i++) writing.push(WRITING_POOL[(wStart + i) % WRITING_POOL.length]);
+
+  // Pick 10 cloze questions
+  const cStart = ((dayNum - 1) * 3) % CLOZE_POOL.length;
+  const cloze = [];
+  for(let i = 0; i < 10; i++) cloze.push(CLOZE_POOL[(cStart + i) % CLOZE_POOL.length]);
+
+  // Pick 10 tense questions
+  const tStart = ((dayNum - 1) * 3) % TENSE_POOL.length;
+  const tense = [];
+  for(let i = 0; i < 10; i++) tense.push(TENSE_POOL[(tStart + i) % TENSE_POOL.length]);
+
+  // Pick 10 stress questions
+  const sStart = ((dayNum - 1) * 3) % STRESS_POOL.length;
+  const stress = [];
+  for(let i = 0; i < 10; i++) stress.push(STRESS_POOL[(sStart + i) % STRESS_POOL.length]);
+
+  // Pick 3 videos
+  const vStart = ((dayNum - 1) * 2) % VIDEOS.length;
+  const videos = [VIDEOS[vStart % VIDEOS.length], VIDEOS[(vStart+1)%VIDEOS.length], VIDEOS[(vStart+2)%VIDEOS.length]];
+
+  return {topic, difficulty, vocab, grammar, reading, writing, cloze, tense, stress, videos};
+}
+
+// DICTIONARY DATA
+// ═══════════════════════════════════════════════════════════════
+const DICT = {
+  "schedule":{word:"schedule",phonetic:"/ˈskedʒuːl/",entries:[{pos:"verb",meaning:"Lên lịch, sắp xếp thời gian cho sự kiện",examples:["Please schedule a meeting for next Monday.","The conference has been scheduled for March 15th."]},{pos:"noun",meaning:"Lịch trình, kế hoạch thời gian",examples:["According to the schedule, we depart at 9am.","The production schedule was revised yesterday."]}],synonyms:["plan","arrange","organize"],related:["agenda","timetable","itinerary"]},
+  "deadline":{word:"deadline",phonetic:"/ˈdedlaɪn/",entries:[{pos:"noun",meaning:"Hạn chót, thời điểm phải hoàn thành",examples:["The deadline for submitting applications is June 30th.","We are working hard to meet the project deadline."]}],synonyms:["due date","cutoff","time limit"],related:["schedule","milestone","timeline"]},
+  "revenue":{word:"revenue",phonetic:"/ˈrevənjuː/",entries:[{pos:"noun",meaning:"Doanh thu, thu nhập từ kinh doanh",examples:["The company's annual revenue exceeded $50 million.","Revenue from online sales increased by 30% this year."]}],synonyms:["income","earnings","turnover"],related:["profit","sales","budget"]},
+  "negotiate":{word:"negotiate",phonetic:"/nɪˈɡoʊʃieɪt/",entries:[{pos:"verb",meaning:"Đàm phán, thương lượng để đạt thỏa thuận",examples:["Both parties will negotiate the terms of the contract.","We successfully negotiated a better price with the supplier."]}],synonyms:["bargain","discuss","mediate"],related:["contract","agreement","compromise"]},
+  "implement":{word:"implement",phonetic:"/ˈɪmplɪment/",entries:[{pos:"verb",meaning:"Thực hiện, triển khai (kế hoạch/chính sách)",examples:["The new policy will be implemented starting next quarter.","We need more resources to implement this strategy effectively."]},{pos:"noun",meaning:"Dụng cụ, thiết bị",examples:["Farming implements were found at the site."]}],synonyms:["execute","carry out","apply","enforce"],related:["strategy","plan","policy"]},
+  "efficient":{word:"efficient",phonetic:"/ɪˈfɪʃnt/",entries:[{pos:"adjective",meaning:"Hiệu quả, đạt kết quả tốt với ít tài nguyên nhất",examples:["An efficient manager completes tasks on time with minimal resources.","We need a more efficient process for handling customer complaints."]}],synonyms:["effective","productive","streamlined"],related:["efficiency","productivity","optimize"]},
+};
+
+// ═══════════════════════════════════════════════════════════════
+// EXAM DATA
+// ═══════════════════════════════════════════════════════════════
+const MINI_EXAM = {
+  title:"Mini TOEIC Test (20 câu)",
+  time:20*60,
+  questions:[
+    {type:"Part5",q:"The marketing team _____ the campaign last Tuesday.",opts:["launches","launch","launched","launching"],c:2,
+      exp:"'Last Tuesday' → simple past → 'launched'",
+      wrong:"Nhiều người chọn 'launches' (hiện tại đơn) hoặc 'launch' (nguyên thể) vì không để ý trạng từ thời gian.",
+      why:"'Last Tuesday' là dấu hiệu rõ ràng của thì Quá khứ đơn (Simple Past). Động từ phải chia dạng V2 (past tense).",
+      fix:"Đáp án đúng: <strong>launched</strong>. Cấu trúc: S + V2 + O + thời gian quá khứ."},
+    {type:"Part5",q:"Please ensure that all documents _____ before the deadline.",opts:["submit","are submitted","submitting","submitted"],c:1,
+      exp:"Passive voice: are + V3",
+      wrong:"Nhiều người chọn 'submitted' (V3 đơn thuần) hoặc 'submit' (chủ động) mà quên rằng documents không tự nộp.",
+      why:"'Documents' (tài liệu) là vật thể bị động — chúng được nộp bởi ai đó. Phải dùng câu bị động (Passive Voice) thì hiện tại: am/is/are + V3.",
+      fix:"Đáp án đúng: <strong>are submitted</strong>. Cấu trúc bị động: The documents are submitted by someone."},
+    {type:"Part5",q:"The new software _____ employees to track their work hours more easily.",opts:["allow","allows","allowed","allowing"],c:1,
+      exp:"Subject 'software' → 3rd person singular → 'allows'",
+      wrong:"Nhiều người chọn 'allow' (dạng nguyên thể) vì nhầm chủ ngữ là số nhiều.",
+      why:"Chủ ngữ 'The new software' là danh từ số ít (singular noun). Trong thì Hiện tại đơn, chủ ngữ số ít (he/she/it) phải dùng động từ thêm -s/-es.",
+      fix:"Đáp án đúng: <strong>allows</strong>. Quy tắc: The software + allows (thêm 's' vì chủ ngữ số ít)."},
+    {type:"Part5",q:"_____ the heavy rain, the outdoor event was cancelled.",opts:["Although","Because","Due to","In spite"],c:2,
+      exp:"'Due to' + noun phrase để chỉ nguyên nhân",
+      wrong:"Nhiều người chọn 'Although' (mặc dù) hoặc 'Because' (vì) — sai vì 'Because' cần mệnh đề đầy đủ sau nó.",
+      why:"Sau chỗ trống là 'the heavy rain' — đây là cụm danh từ (noun phrase), không phải mệnh đề. 'Due to' và 'Because of' dùng trước noun phrase để chỉ nguyên nhân. 'Because' cần mệnh đề đầy đủ (Because it rained heavily).",
+      fix:"Đáp án đúng: <strong>Due to</strong>. Công thức: Due to + noun phrase = Because of + noun phrase."},
+    {type:"Part5",q:"She is responsible _____ coordinating the annual conference.",opts:["of","for","with","to"],c:1,
+      exp:"'responsible for' là cụm cố định",
+      wrong:"Nhiều người chọn 'of' vì nhầm với 'in charge of' hoặc 'capable of'.",
+      why:"'Responsible for' là collocation cố định trong tiếng Anh — không thể thay bằng giới từ khác. Đây là kiến thức từ vựng cần học thuộc.",
+      fix:"Đáp án đúng: <strong>for</strong>. Ghi nhớ: be responsible FOR something/doing something."},
+    {type:"Part5",q:"The contract _____ be signed by both parties before work begins.",opts:["should","might","must","can"],c:2,
+      exp:"'Must' thể hiện sự bắt buộc",
+      wrong:"Nhiều người chọn 'should' (nên) — nhưng 'should' chỉ mang tính khuyên nhủ, không phải bắt buộc.",
+      why:"Câu đang nói về điều kiện bắt buộc ('before work begins'). 'Must' diễn tả nghĩa vụ bắt buộc. 'Should' chỉ là lời khuyên. 'Might/Can' là khả năng, không phù hợp.",
+      fix:"Đáp án đúng: <strong>must</strong>. Phân biệt: must = bắt buộc, should = nên, might = có thể."},
+    {type:"Part5",q:"Mr. Kim, _____ manages the finance department, will present the report.",opts:["who","which","whom","whose"],c:0,
+      exp:"Mệnh đề quan hệ chỉ người → 'who'",
+      wrong:"Nhiều người nhầm 'whom' vì Mr. Kim là tân ngữ của động từ 'manages' — nhưng thực ra 'Mr. Kim' là CHỦ NGỮ của mệnh đề quan hệ.",
+      why:"Trong mệnh đề quan hệ '_____ manages the finance department', đại từ quan hệ đóng vai trò CHỦ NGỮ của động từ 'manages'. Khi là chủ ngữ → dùng 'who'. Khi là tân ngữ → dùng 'whom'.",
+      fix:"Đáp án đúng: <strong>who</strong>. Quy tắc: who = chủ ngữ (who manages), whom = tân ngữ (whom we hired)."},
+    {type:"Part6",q:"[Email: 'We regret to inform you that your order has been delayed.'] The word 'regret' in this context means:",opts:["celebrate","apologize for","announce","confirm"],c:1,
+      exp:"'Regret to inform' = thông báo với sự tiếc lỗi",
+      wrong:"Nhiều người chọn 'announce' — đúng nghĩa là thông báo nhưng không nắm được sắc thái 'tiếc lỗi' của 'regret'.",
+      why:"'Regret' có nghĩa 'lấy làm tiếc'. 'We regret to inform you' = 'Chúng tôi lấy làm tiếc phải thông báo với bạn' — hàm ý xin lỗi vì thông tin xấu. Đây là cụm từ lịch sự thông dụng trong email kinh doanh.",
+      fix:"Đáp án đúng: <strong>apologize for (announcing)</strong>. Ghi nhớ cụm: We regret to inform you = We are sorry to tell you."},
+    {type:"Part6",q:"[Email: 'Please find attached the revised proposal for your review.'] What is attached?",opts:["A contract","An invoice","A revised proposal","Meeting minutes"],c:2,
+      exp:"Từ khóa 'the revised proposal' trong email",
+      wrong:"Đây là câu đọc hiểu trực tiếp — chỉ cần tìm danh từ ngay sau 'attached'.",
+      why:"Email viết 'Please find attached the revised proposal' — 'attached' là tệp đính kèm, 'the revised proposal' (bản đề xuất đã chỉnh sửa) là thứ được đính kèm.",
+      fix:"Đáp án đúng: <strong>A revised proposal</strong>. Kỹ năng: trong Part 6, luôn tìm từ khóa cụ thể trong văn bản thay vì đoán."},
+    {type:"Part6",q:"[Notice: 'All staff must complete mandatory training by December 31st.'] Who must complete the training?",opts:["New employees only","Management only","All staff","Part-time staff"],c:2,
+      exp:"'All staff' được ghi rõ trong thông báo",
+      wrong:"Một số người đọc lướt và đoán 'New employees' hoặc 'Management' vì liên tưởng đến training.",
+      why:"Từ khóa 'All staff' trong văn bản đã trả lời trực tiếp. Trong TOEIC, không được suy diễn thêm — chỉ dựa vào thông tin có trong bài.",
+      fix:"Đáp án đúng: <strong>All staff</strong>. Nguyên tắc TOEIC: câu trả lời luôn có căn cứ trực tiếp trong văn bản."},
+    {type:"Part7",q:"[Passage: 'The Riverside Hotel offers complimentary breakfast for guests staying more than 3 nights. Business travelers can request early check-in from 9am. The hotel's executive lounge is available exclusively for Premium members.'] Who can access the executive lounge?",opts:["All guests","Business travelers","Guests staying 3+ nights","Premium members"],c:3,
+      exp:"'exclusively for Premium members' trong đoạn văn",
+      wrong:"Nhiều người chọn 'Business travelers' vì câu trước vừa nhắc đến business travelers.",
+      why:"Từ khóa 'exclusively for Premium members' — 'exclusively' có nghĩa 'chỉ dành riêng'. Executive lounge KHÔNG liên quan đến business travelers hay số đêm ở.",
+      fix:"Đáp án đúng: <strong>Premium members</strong>. Chú ý từ 'exclusively' = chỉ dành riêng cho. Đừng bị đánh lạc hướng bởi câu trước."},
+    {type:"Part7",q:"[Same passage] What time can business travelers check in early?",opts:["7am","8am","9am","10am"],c:2,
+      exp:"'early check-in from 9am' trong đoạn văn",
+      wrong:"Câu này thường đúng nếu đọc kỹ — lỗi phổ biến là đọc nhầm '9' thành '8' hoặc '10'.",
+      why:"Văn bản ghi rõ 'can request early check-in from 9am'. Đây là câu hỏi chi tiết (detail question) — cần đọc chính xác con số.",
+      fix:"Đáp án đúng: <strong>9am</strong>. Mẹo: với câu hỏi về số liệu/thời gian, gạch chân con số trong bài trước khi chọn đáp án."},
+    {type:"Part7",q:"[Passage: 'Applications for the Management Training Program are now open. Candidates must have at least 3 years of work experience and a university degree. The program runs for 6 months, with sessions every Saturday. Successful applicants will receive a $500 stipend per month.'] How long is the program?",opts:["3 months","4 months","6 months","1 year"],c:2,
+      exp:"'The program runs for 6 months'",
+      wrong:"Một số người nhầm '3 years' (kinh nghiệm làm việc yêu cầu) với độ dài của chương trình.",
+      why:"Có hai con số trong bài: '3 years' (yêu cầu kinh nghiệm) và '6 months' (thời lượng chương trình). Câu hỏi hỏi về thời lượng chương trình — phải tìm đúng thông tin.",
+      fix:"Đáp án đúng: <strong>6 months</strong>. Mẹo: đọc kỹ câu hỏi hỏi về cái gì trước, sau đó tìm đúng thông tin đó trong bài."},
+    {type:"Part7",q:"[Same passage] When do sessions take place?",opts:["Weekdays","Monday–Friday","Every Saturday","Every Sunday"],c:2,
+      exp:"'sessions every Saturday'",
+      wrong:"Đây là câu chi tiết đơn giản — thường đúng nếu đọc kỹ.",
+      why:"Văn bản ghi 'with sessions every Saturday'. Không có thông tin về Sunday hay weekdays.",
+      fix:"Đáp án đúng: <strong>Every Saturday</strong>. Thông tin nằm trực tiếp trong bài đọc."},
+    {type:"Part7",q:"[Same passage] What is the monthly stipend?",opts:["$300","$400","$500","$600"],c:2,
+      exp:"'receive a $500 stipend per month'",
+      wrong:"Câu hỏi về số tiền — lỗi thường gặp là nhầm với con số khác trong bài.",
+      why:"Bài viết: 'will receive a $500 stipend per month'. Chỉ có một con số tiền duy nhất trong bài này.",
+      fix:"Đáp án đúng: <strong>$500</strong>. Với câu hỏi số liệu, gạch chân tất cả con số trong bài và đối chiếu với câu hỏi."},
+    {type:"Part5",q:"The CEO announced that the company _____ expand to three new markets next year.",opts:["will","would","has","had"],c:1,
+      exp:"Reported speech: will → would",
+      wrong:"Nhiều người chọn 'will' vì thấy 'next year' thường đi với tương lai.",
+      why:"Đây là câu tường thuật gián tiếp (Reported Speech). Mệnh đề chính 'announced' ở quá khứ → động từ trong mệnh đề phụ lùi thì: will → would. 'Next year' vẫn giữ nguyên vì đó là tương lai so với thời điểm nói.",
+      fix:"Đáp án đúng: <strong>would</strong>. Quy tắc backshift: announce (past) → mệnh đề sau dùng would thay vì will."},
+    {type:"Part5",q:"Despite _____ hard all week, they missed the deadline.",opts:["work","working","worked","to work"],c:1,
+      exp:"'Despite' + V-ing",
+      wrong:"Nhiều người chọn 'to work' vì nhầm 'Despite' với các động từ theo sau bởi to-infinitive.",
+      why:"'Despite' (mặc dù) là giới từ, luôn theo sau bởi danh từ hoặc V-ing. Không dùng 'despite + to-infinitive' hay 'despite + V'. Tương tự: In spite of + V-ing.",
+      fix:"Đáp án đúng: <strong>working</strong>. Ghi nhớ: Despite/In spite of + V-ing hoặc noun phrase."},
+    {type:"Part5",q:"We need someone _____ experience in supply chain management.",opts:["with","of","for","by"],c:0,
+      exp:"'someone with experience' → dùng 'with'",
+      wrong:"Nhiều người chọn 'of' vì hay gặp 'years of experience' và nhầm cấu trúc.",
+      why:"'Someone with experience' = người có kinh nghiệm. 'With' dùng để diễn tả đặc điểm/tính chất của ai/cái gì. 'Years of experience' khác — 'of' ở đây thuộc cụm 'years of'.",
+      fix:"Đáp án đúng: <strong>with</strong>. Phân biệt: someone WITH experience (người có KN) vs. years OF experience (số năm KN)."},
+    {type:"Part6",q:"[Memo: 'Effective immediately, all travel requests must be submitted two weeks in advance.'] The word 'effective' here means:",opts:["efficiently","starting from now","successfully","affecting"],c:1,
+      exp:"'Effective immediately' = có hiệu lực ngay lập tức",
+      wrong:"Nhiều người chọn 'efficiently' vì nhầm 'effective' với 'effectively' (hiệu quả).",
+      why:"'Effective immediately' là cụm cố định trong văn bản hành chính = 'kể từ bây giờ / có hiệu lực ngay'. Không liên quan đến 'hiệu quả' (efficient/effectively).",
+      fix:"Đáp án đúng: <strong>starting from now</strong>. Ghi nhớ cụm: Effective immediately = starting now, With immediate effect."},
+    {type:"Part5",q:"The quarterly results _____ more impressive than analysts had predicted.",opts:["prove","proved","have proved","proving"],c:1,
+      exp:"Simple past for completed past event: 'proved'",
+      wrong:"Nhiều người chọn 'have proved' (Present Perfect) vì kết quả có vẻ liên quan đến hiện tại.",
+      why:"Sự kiện (quarterly results) đã xảy ra và kết thúc trong quá khứ — đây là sự kiện cụ thể đã hoàn thành. Simple Past 'proved' phù hợp hơn Present Perfect khi có ngữ cảnh sự kiện đã kết thúc.",
+      fix:"Đáp án đúng: <strong>proved</strong>. Dùng Simple Past cho sự kiện đã hoàn thành trong quá khứ, dù không có trạng từ thời gian rõ ràng."}
+  ]
+};
+
+const FULL_EXAM = {
+  title:"Full TOEIC Practice (Part 5 + 6 + 7)",
+  time:75*60,
+  parts:[
+    {name:"Part 5 — Incomplete Sentences",questions:MINI_EXAM.questions.filter(q=>q.type==="Part5").concat([
+      {type:"Part5",q:"The merger _____ announced at yesterday's press conference.",opts:["was","were","is","has"],c:0,
+        exp:"Subject 'The merger' (số ít) + bị động quá khứ → 'was announced'",
+        wrong:"Nhiều người chọn 'were' vì nhầm 'merger' là số nhiều, hoặc chọn 'is' vì nghĩ câu bị động hiện tại.",
+        why:"'The merger' là chủ ngữ số ít → trợ động từ bị động phải là 'was' (không phải 'were'). 'Yesterday' chỉ quá khứ → không dùng 'is'.",
+        fix:"Đáp án đúng: <strong>was</strong>. Cấu trúc: The merger (singular) + was announced (passive past)."},
+      {type:"Part5",q:"All employees _____ to complete the online safety training by Friday.",opts:["require","requires","required","are required"],c:3,
+        exp:"Passive: are required to + V",
+        wrong:"Nhiều người chọn 'required' (V3 đơn thuần) mà quên mất trợ động từ 'are' đi kèm.",
+        why:"'All employees' là người nhận yêu cầu (bị động). Passive = are + V3. 'Are required to + V' là cụm bị động chuẩn với nghĩa 'được yêu cầu phải làm gì'.",
+        fix:"Đáp án đúng: <strong>are required</strong>. Cấu trúc: S + are required + to do something."},
+      {type:"Part5",q:"The new policy _____ into effect on January 1st.",opts:["goes","go","went","going"],c:2,
+        exp:"'On January 1st' (past) → 'went'",
+        wrong:"Nhiều người chọn 'goes' (hiện tại đơn) vì nghĩ đây là sự kiện tương lai hoặc hiện tại.",
+        why:"'On January 1st' không xác định là quá khứ hay tương lai — nhưng ngữ cảnh câu dùng 'the new policy' (chính sách đã ra đời) → đã có hiệu lực trong quá khứ. Dùng Simple Past 'went'.",
+        fix:"Đáp án đúng: <strong>went</strong>. Cụm 'go into effect' = có hiệu lực. Quá khứ: went into effect."},
+      {type:"Part5",q:"Neither the director nor the managers _____ available for comment.",opts:["was","is","were","are"],c:2,
+        exp:"'Neither...nor' với chủ ngữ gần nhất số nhiều → 'were'",
+        wrong:"Nhiều người chọn 'was' vì chú ý đến 'the director' (số ít) gần trợ động từ hơn.",
+        why:"Với cấu trúc 'Neither A nor B', động từ chia theo chủ ngữ GẦN NHẤT với động từ — ở đây là 'the managers' (số nhiều) → dùng 'were'. Đây là quy tắc 'proximity agreement'.",
+        fix:"Đáp án đúng: <strong>were</strong>. Quy tắc: Neither A nor B + V theo B (chủ ngữ gần nhất)."},
+      {type:"Part5",q:"We appreciate _____ the time to review our proposal.",opts:["you take","you taking","your taking","yours taking"],c:2,
+        exp:"'appreciate' + possessive + V-ing → 'your taking'",
+        wrong:"Nhiều người chọn 'you taking' vì thấy 'you' đứng trước V-ing có vẻ tự nhiên.",
+        why:"Trong văn phong trang trọng, sau động từ 'appreciate' dùng possessive adjective + V-ing (your taking). 'You taking' là informal; trong TOEIC (văn phong kinh doanh) nên dùng possessive.",
+        fix:"Đáp án đúng: <strong>your taking</strong>. Cấu trúc trang trọng: appreciate + your/his/her + V-ing."}
+    ])},
+    {name:"Part 6 — Text Completion",questions:MINI_EXAM.questions.filter(q=>q.type==="Part6").concat([
+      {type:"Part6",q:"[Letter: 'We are pleased to _____ that your application has been successful.'] Choose the best word:",opts:["inform","say","tell","speak"],c:0,
+        exp:"'Pleased to inform' là cụm trang trọng trong thư",
+        wrong:"Nhiều người chọn 'tell' vì 'tell' và 'inform' đều nghĩa là 'nói cho biết'.",
+        why:"Trong văn bản trang trọng (formal letter), 'inform' là từ chuẩn mực. 'Tell' quá informal. 'Say' không có tân ngữ người. 'Speak' không phù hợp cú pháp ở đây.",
+        fix:"Đáp án đúng: <strong>inform</strong>. Cụm trang trọng: We are pleased to inform you that... (Chúng tôi vui mừng thông báo rằng...)"},
+      {type:"Part6",q:"[Report: 'Sales _____ steadily over the past six months.'] Choose the correct form:",opts:["grows","grew","have grown","had grown"],c:2,
+        exp:"'Over the past six months' → Present Perfect",
+        wrong:"Nhiều người chọn 'grew' (Simple Past) vì thấy đây là sự kiện đã xảy ra.",
+        why:"'Over the past six months' = trong suốt 6 tháng vừa qua (tính đến hiện tại). Đây là dấu hiệu của Present Perfect — hành động kéo dài từ quá khứ đến hiện tại.",
+        fix:"Đáp án đúng: <strong>have grown</strong>. Dấu hiệu Present Perfect: over the past + time, in recent months, since, for + period."}
+    ])},
+    {name:"Part 7 — Reading Comprehension",questions:MINI_EXAM.questions.filter(q=>q.type==="Part7").concat([
+      {type:"Part7",q:"[Ad: 'Grand Office Suites — Premium co-working spaces in the city center. Daily rate: $45. Weekly rate: $250. Monthly rate: $800. Free parking included for monthly subscribers.'] What is the daily rate?",opts:["$40","$45","$50","$55"],c:1,
+        exp:"'Daily rate: $45' ghi rõ trong quảng cáo",
+        wrong:"Câu này thường sai do đọc nhầm con số hoặc nhầm giữa Daily/Weekly/Monthly rate.",
+        why:"Bài đọc liệt kê 3 mức giá khác nhau. 'Daily rate' = giá theo ngày = $45. Cần đọc chính xác từng dòng.",
+        fix:"Đáp án đúng: <strong>$45</strong>. Mẹo: gạch chân từng mức giá khi đọc để không nhầm lẫn."},
+      {type:"Part7",q:"[Same ad] Which plan includes free parking?",opts:["Daily","Weekly","Monthly","All plans"],c:2,
+        exp:"'Free parking included for monthly subscribers'",
+        wrong:"Nhiều người chọn 'All plans' vì nghĩ đây là dịch vụ chung của khách sạn/văn phòng.",
+        why:"Văn bản ghi rõ 'Free parking included for monthly subscribers' — chỉ áp dụng cho người đăng ký gói tháng (monthly). Gói ngày và tuần không được đề cập.",
+        fix:"Đáp án đúng: <strong>Monthly</strong>. Nguyên tắc: không tự suy diễn — chỉ dựa vào thông tin có trong bài."}
+    ])}
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════════
+// APP STATE
+// ═══════════════════════════════════════════════════════════════
+const TODAY = new Date().toISOString().slice(0,10);
+let P = {
+  day:1, streak:1, lastDate:'', totalWords:0, xp:0, level:1,
+  history:{}, // {date: {vocabDone, grammarScore, readingScore, writingDone}}
+};
+let lesson = null;
+let prog = { vr:[], ci:0, fl:false, gi:0, ga:null, ra:[[],[]], rqi:[0,0], wi:0, win:'', wfb:null, clz:[], clzI:0, ten:[], tenI:0, str:[], strI:0, sc:{g:0,r:0,cl:0,te:0,st:0} };
+let currentPage = 'dashboard';
+let examState = null;
+let examTimer = null;
+
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════
+const pageInfo = {
+  dashboard:{title:'Dashboard',sub:()=>`Hôm nay là ngày học thứ ${P.day} • Chủ đề: ${lesson?.topic||''}`},
+  vocab:{title:'Từ vựng',sub:()=>`${prog.vr.length}/${lesson?.vocab.length||15} từ đã học`},
+  grammar:{title:'Ngữ pháp',sub:()=>`${prog.gi}/${lesson?.grammar.length||15} câu đã làm`},
+  reading:{title:'Đọc hiểu',sub:()=>`Đọc văn bản và trả lời câu hỏi — 2 đoạn × 5 câu`},
+  writing:{title:'Luyện viết',sub:()=>`${prog.wi}/${lesson?.writing.length||5} bài đã làm`},
+  dict:{title:'Từ điển TOEIC',sub:()=>'Tra nghĩa chi tiết & ví dụ thực tế'},
+  exam:{title:'Đề thi thực hành',sub:()=>'Mini Test 20 câu hoặc Full Test Part 5+6+7'},
+  roadmap:{title:'Lộ trình học',sub:()=>'Xem tiến độ theo ngày, tuần, tháng'},
+  cloze:{title:'Điền từ vựng',sub:()=>`${prog.clzI}/${lesson?.cloze.length||10} câu — Cloze Test`},
+  tense:{title:'Điền theo thì',sub:()=>`${prog.tenI}/${lesson?.tense.length||10} câu — Verb Forms`},
+  stress:{title:'Trọng âm',sub:()=>`${prog.strI}/${lesson?.stress.length||10} câu — Word Stress`},
+  videos:{title:'Video học',sub:()=>'Playlist TOEIC tuyển chọn theo chủ đề hôm nay'},
+};
+
+function goto(page) {
+  if(examTimer&&page!=='exam'){clearInterval(examTimer);examTimer=null;}
+  currentPage = page;
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.page===page));
+  document.getElementById('page-title').textContent = pageInfo[page].title;
+  document.getElementById('page-sub').textContent = pageInfo[page].sub();
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════
+function render() {
+  const c = document.getElementById('content');
+  if(!c) return;
+  const pages = {dashboard:renderDashboard,vocab:renderVocab,grammar:renderGrammar,reading:renderReading,writing:renderWriting,dict:renderDict,exam:renderExam,roadmap:renderRoadmap,cloze:renderCloze,tense:renderTense,stress:renderStress,videos:renderVideos};
+  c.innerHTML = (pages[currentPage]||renderDashboard)();
+}
+
+// ── DASHBOARD ────────────────────────────────────────────────
+function renderDashboard() {
+  const vDone = prog.vr.length >= (lesson?.vocab.length||15);
+  const gDone = prog.gi >= (lesson?.grammar.length||15);
+  const rDone = lesson?.reading && Array.isArray(prog.ra) && prog.ra[0] && prog.ra[1] &&
+    prog.ra[0].length >= lesson.reading[0].questions.length &&
+    prog.ra[1].length >= lesson.reading[1].questions.length;
+  const wDone = prog.wi >= (lesson?.writing.length||5);
+  const clDone = prog.clzI >= (lesson?.cloze.length||10);
+  const teDone = prog.tenI >= (lesson?.tense.length||10);
+  const stDone = prog.strI >= (lesson?.stress.length||10);
+  const todayPct = Math.round([vDone,gDone,rDone,wDone,clDone,teDone,stDone].filter(Boolean).length/7*100);
+  const xpNext = P.level * 500;
+  const xpBar = Math.min(100, Math.round((P.xp % xpNext) / xpNext * 100));
+  const allDone = vDone&&gDone&&rDone&&wDone&&clDone&&teDone&&stDone;
+
+  const historyDates = Object.keys(P.history||{}).sort().slice(-7);
+  const recentAct = historyDates.map(d=>{
+    const h=P.history[d];
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:11px;color:var(--text3);width:80px;flex-shrink:0">${d.slice(5)}</span>
+      <span class="badge badge-${h.vocabDone?'green':'red'}" style="font-size:10px">${h.vocabDone?'✓':'✗'} Từ vựng</span>
+      <span class="badge badge-${h.grammarScore>=3?'blue':'orange'}" style="font-size:10px">Ngữ pháp ${h.grammarScore||0}/5</span>
+      <span class="badge badge-${h.readingScore>=3?'teal':'orange'}" style="font-size:10px">Đọc ${h.readingScore||0}/4</span>
+    </div>`;
+  }).join('') || '<div style="color:var(--text3);font-size:13px;padding:16px 0;text-align:center">Chưa có lịch sử học</div>';
+
+  return `
+<div class="grid-4 mb-16">
+  <div class="stat-card" style="background:linear-gradient(135deg,rgba(59,125,216,0.12),rgba(59,125,216,0.04));border:1px solid rgba(59,125,216,0.2)">
+    <div class="stat-icon">📅</div>
+    <div class="stat-val" style="color:var(--blue)">${P.day}</div>
+    <div class="stat-label">Ngày học</div>
+    <div class="stat-sub">Liên tục ${P.streak} ngày</div>
+  </div>
+  <div class="stat-card" style="background:linear-gradient(135deg,rgba(43,138,62,0.12),rgba(43,138,62,0.04));border:1px solid rgba(43,138,62,0.2)">
+    <div class="stat-icon">📝</div>
+    <div class="stat-val" style="color:var(--green)">${P.totalWords}</div>
+    <div class="stat-label">Từ đã học</div>
+    <div class="stat-sub">Tích lũy từ đầu</div>
+  </div>
+  <div class="stat-card" style="background:linear-gradient(135deg,rgba(103,65,217,0.12),rgba(103,65,217,0.04));border:1px solid rgba(103,65,217,0.2)">
+    <div class="stat-icon">⚡</div>
+    <div class="stat-val" style="color:var(--purple)">${P.xp}</div>
+    <div class="stat-label">Tổng XP</div>
+    <div class="stat-sub">Level ${P.level}</div>
+  </div>
+  <div class="stat-card" style="background:linear-gradient(135deg,rgba(217,72,15,0.12),rgba(217,72,15,0.04));border:1px solid rgba(217,72,15,0.2)">
+    <div class="stat-icon">🔥</div>
+    <div class="stat-val" style="color:var(--orange)">${todayPct}%</div>
+    <div class="stat-label">Hôm nay</div>
+    <div class="stat-sub">${[vDone,gDone,rDone,wDone].filter(Boolean).length}/4 module</div>
+  </div>
+</div>
+
+<div class="grid-2 gap-16 mb-16">
+  <div class="card">
+    <div class="section-header mb-8">
+      <div><div class="section-title">📚 Bài học hôm nay</div><div style="font-size:11px;color:var(--text3)">${lesson?.topic||''}</div></div>
+      ${allDone?`<span class="badge badge-green">✓ Hoàn thành</span>`:`<span class="badge badge-blue">Đang học</span>`}
+    </div>
+    <div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px">
+        <span style="color:var(--text2)">Tiến độ hôm nay</span>
+        <span style="color:var(--blue)">${todayPct}%</span>
+      </div>
+      <div class="progress-wrap" style="height:8px"><div class="progress-fill" style="width:${todayPct}%;background:var(--blue)"></div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px">
+      ${[
+        {label:'Từ vựng',done:vDone,icon:'📖',page:'vocab',score:`${prog.vr.filter(r=>r==='k').length}/${lesson?.vocab.length||15}`},
+        {label:'Ngữ pháp',done:gDone,icon:'✏️',page:'grammar',score:`${prog.sc.g}/${lesson?.grammar.length||15}`},
+        {label:'Đọc hiểu',done:rDone,icon:'📄',page:'reading',score:`${prog.sc.r}/10`},
+        {label:'Luyện viết',done:wDone,icon:'💬',page:'writing',score:`${prog.wi}/${lesson?.writing.length||5}`},
+        {label:'Điền từ',done:clDone,icon:'🔤',page:'cloze',score:`${prog.sc.cl||0}/${lesson?.cloze.length||10}`},
+        {label:'Điền thì',done:teDone,icon:'⏱️',page:'tense',score:`${prog.sc.te||0}/${lesson?.tense.length||10}`},
+        {label:'Trọng âm',done:stDone,icon:'🎵',page:'stress',score:`${prog.sc.st||0}/${lesson?.stress.length||10}`},
+        {label:'Video',done:false,icon:'▶️',page:'videos',score:'Xem ngay'},
+      ].map(m=>`
+      <div onclick="goto('${m.page}')" style="cursor:pointer;padding:12px;border-radius:8px;border:1px solid ${m.done?'rgba(43,138,62,0.3)':'var(--border)'};background:${m.done?'var(--green-dim)':'var(--bg3)'};transition:all 0.15s" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='${m.done?'rgba(43,138,62,0.3)':'var(--border)'}'">
+        <div style="font-size:16px;margin-bottom:4px">${m.icon}</div>
+        <div style="font-size:12px;font-weight:500;color:${m.done?'var(--green)':'var(--text)'}">${m.label}</div>
+        <div style="font-size:11px;color:var(--text3)">${m.score}</div>
+      </div>`).join('')}
+    </div>
+    ${allDone?`<button class="btn btn-green mt-16" style="width:100%" onclick="finishDay()">🏆 Hoàn thành ngày ${P.day}</button>`:''}
+  </div>
+
+  <div class="flex-col gap-16">
+    <div class="card">
+      <div class="section-title mb-12">⚡ Cấp độ & XP</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+        <div style="font-size:28px;font-weight:700;color:var(--purple)">Lv.${P.level}</div>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px">
+            <span>${P.xp % xpNext} XP</span><span>${xpNext} XP</span>
+          </div>
+          <div class="progress-wrap" style="height:8px"><div class="progress-fill" style="width:${xpBar}%;background:var(--purple)"></div></div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--text3)">🎖️ ${getLevelName(P.level)} → ${getLevelName(P.level+1)} cần ${xpNext - (P.xp % xpNext)} XP</div>
+    </div>
+    <div class="card" style="flex:1">
+      <div class="section-title mb-12">📊 7 ngày gần đây</div>
+      ${recentAct}
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-header">
+    <div class="section-title">🗺️ Chủ đề sắp tới</div>
+    <button class="btn btn-ghost" onclick="goto('roadmap')" style="font-size:12px;padding:6px 12px">Xem lộ trình đầy đủ →</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px">
+    ${Array.from({length:5},(_,i)=>{
+      const d=P.day+i; const t=TOPICS[(d-1)%TOPICS.length];
+      return `<div style="padding:10px;border-radius:8px;border:1px solid ${i===0?'rgba(59,125,216,0.4)':'var(--border)'};background:${i===0?'var(--blue-dim)':'var(--bg3)'}">
+        <div style="font-size:10px;color:${i===0?'var(--blue)':'var(--text3)'};margin-bottom:4px">Ngày ${d}</div>
+        <div style="font-size:11px;color:${i===0?'var(--text)':'var(--text2)'};font-weight:${i===0?'500':'400'}">${t}</div>
+      </div>`;
+    }).join('')}
+  </div>
+</div>`;
+}
+
+function getLevelName(l){
+  const names=['','Beginner','Elementary','Pre-Intermediate','Intermediate','Upper-Intermediate','Advanced','Expert','Master','Champion','Legend'];
+  return names[Math.min(l,10)]||'Legend';
+}
+
+// ── VOCAB ────────────────────────────────────────────────────
+function renderVocab() {
+  const vocab = lesson.vocab;
+  const done = prog.vr.length >= vocab.length;
+  if(done) return moduleDone('📖','Hoàn thành từ vựng!',`Nhớ được ${prog.vr.filter(r=>r==='k').length}/${vocab.length} từ • +${vocab.length*10} XP`,'grammar','Sang Ngữ pháp →');
+  const w = vocab[prog.ci];
+  const remembered = prog.vr.filter(r=>r==='k').length;
+  return `
+<div class="grid-2 gap-16">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div class="section-title">Thẻ từ vựng</div>
+      <span style="font-size:12px;color:var(--text3)">${prog.ci+1} / ${vocab.length}</span>
+    </div>
+    <div class="progress-wrap mb-16" style="height:4px"><div class="progress-fill" style="width:${prog.ci/vocab.length*100}%;background:var(--blue)"></div></div>
+    <div class="flashcard-scene" onclick="doFlip()">
+      <div class="flashcard-card${prog.fl?' flipped':''}">
+        <div class="flashcard-face fc-front">
+          <div class="fc-word">${w.w}</div>
+          <div class="fc-type">${w.t}</div>
+          <div class="fc-phonetic">${w.ph||''}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:16px">Nhấn để xem nghĩa</div>
+        </div>
+        <div class="flashcard-face fc-back">
+          <div class="fc-meaning">${w.m}</div>
+          <div class="fc-example">${w.ex}</div>
+          <div style="font-size:12px;color:var(--teal);margin-top:8px;text-align:center;font-style:normal">${w.vn||''}</div>
+        </div>
+      </div>
+    </div>
+    ${prog.fl?`
+    <div style="display:flex;gap:10px;margin-top:16px;justify-content:center">
+      <button class="btn btn-red" onclick="cardAns('f');event.stopPropagation()">✗ Chưa nhớ</button>
+      <button class="btn btn-green" onclick="cardAns('k');event.stopPropagation()">✓ Đã nhớ</button>
+    </div>`:`<p style="text-align:center;font-size:12px;color:var(--text3);margin-top:12px">Nhấn thẻ để lật xem nghĩa</p>`}
+  </div>
+
+  <div class="flex-col gap-16">
+    <div class="card">
+      <div class="section-title mb-12">📊 Tiến độ hôm nay</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="text-align:center;padding:14px;background:var(--green-dim);border-radius:8px;border:1px solid rgba(43,138,62,0.3)">
+          <div style="font-size:26px;font-weight:700;color:var(--green)">${remembered}</div>
+          <div style="font-size:11px;color:var(--text2)">Đã nhớ</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:var(--red-dim);border-radius:8px;border:1px solid rgba(247,118,142,0.3)">
+          <div style="font-size:26px;font-weight:700;color:var(--red)">${prog.vr.filter(r=>r==='f').length}</div>
+          <div style="font-size:11px;color:var(--text2)">Cần ôn lại</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="flex:1">
+      <div class="section-title mb-12">📋 Danh sách từ hôm nay</div>
+      <div style="max-height:320px;overflow-y:auto">
+        ${vocab.map((v,i)=>{
+          const res=prog.vr[i];
+          return `<div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:6px;margin-bottom:4px;background:${i===prog.ci?'var(--blue-dim)':res==='k'?'var(--green-dim)':res==='f'?'var(--red-dim)':'var(--bg3)'}">
+            <span style="font-size:12px;width:16px;text-align:center">${res==='k'?'✓':res==='f'?'✗':i===prog.ci?'▶':''}</span>
+            <span style="font-size:13px;font-weight:500;color:${i===prog.ci?'var(--blue)':res==='k'?'var(--green)':res==='f'?'var(--red)':'var(--text2)'}">${v.w}</span>
+            <span style="font-size:11px;color:var(--text3);margin-left:auto">${v.m.split(' / ')[0].slice(0,15)}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+// ── GRAMMAR ──────────────────────────────────────────────────
+function renderGrammar() {
+  if(prog.gi >= lesson.grammar.length) return moduleDone('✏️','Hoàn thành ngữ pháp!',`Điểm: ${prog.sc.g}/${lesson.grammar.length} câu đúng`,'reading','Sang Đọc hiểu →');
+  const q = lesson.grammar[prog.gi];
+  return `
+<div class="grid-2 gap-16">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div><div class="section-title">Ngữ pháp TOEIC</div><div style="font-size:11px;color:var(--text3)">${q.topic||''}</div></div>
+      <span style="font-size:12px;color:var(--text3)">${prog.gi+1}/${lesson.grammar.length}</span>
+    </div>
+    <div class="progress-wrap mb-16" style="height:4px"><div class="progress-fill" style="width:${prog.gi/lesson.grammar.length*100}%;background:var(--purple)"></div></div>
+    <div style="background:var(--bg3);border-radius:8px;padding:16px;margin-bottom:16px;font-size:15px;line-height:1.7;color:var(--text)">${q.q}</div>
+    <div class="mc-grid">
+      ${q.opts.map((o,i)=>{
+        let cls='mc-opt';
+        if(prog.ga!==null){cls+=' disabled';if(i===q.c)cls+=' correct';else if(i===prog.ga&&prog.ga!==q.c)cls+=' wrong';}
+        return `<div class="${cls}" onclick="ansG(${i})"><span class="mc-label">${String.fromCharCode(65+i)}</span>${o}</div>`;
+      }).join('')}
+    </div>
+    ${prog.ga!==null?`<div class="explain-box mt-16">💡 <strong>Giải thích:</strong> ${q.exp}</div><div style="text-align:right;margin-top:12px"><button class="btn btn-primary" onclick="nxtG()">Câu tiếp theo →</button></div>`:''}
+  </div>
+  <div class="flex-col gap-16">
+    <div class="card">
+      <div class="section-title mb-12">📊 Kết quả</div>
+      <div style="text-align:center;margin-bottom:12px">
+        <div style="font-size:36px;font-weight:700;color:var(--purple)">${prog.sc.g}/${prog.gi}</div>
+        <div style="font-size:12px;color:var(--text3)">câu đúng</div>
+      </div>
+      <div class="progress-wrap" style="height:10px"><div class="progress-fill" style="width:${prog.gi?prog.sc.g/prog.gi*100:0}%;background:var(--purple)"></div></div>
+    </div>
+    <div class="card" style="flex:1">
+      <div class="section-title mb-12">📚 Chủ điểm ngữ pháp hôm nay</div>
+      ${lesson.grammar.map((g,i)=>`
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:6px;margin-bottom:4px;background:${i===prog.gi?'var(--purple-dim)':i<prog.gi?'var(--bg3)':'var(--bg3)'}">
+        <span style="font-size:13px">${i<prog.gi?(prog.sc.g>i?'✅':'❌'):(i===prog.gi?'▶':'○')}</span>
+        <span style="font-size:12px;color:${i===prog.gi?'var(--purple)':'var(--text2)'}">${g.topic||`Câu ${i+1}`}</span>
+      </div>`).join('')}
+    </div>
+  </div>
+</div>`;
+}
+
+// ── READING ──────────────────────────────────────────────────
+function renderReading() {
+  const reading = lesson.reading;
+  const allDone = prog.ra.length >= reading.qs.length;
+  if(allDone) return moduleDone('📄','Hoàn thành đọc hiểu!',`Điểm: ${prog.sc.r}/${reading.qs.length} câu đúng`,'writing','Sang Luyện viết →');
+  return `
+<div class="card mb-16">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+    <div class="section-title">📄 Văn bản</div>
+    <span class="badge badge-teal">TOEIC Part 7</span>
+  </div>
+  <div class="reading-passage">${reading.passage.split('\n').join('<br>')}</div>
+</div>
+<div class="card">
+  <div class="section-title mb-16">❓ Câu hỏi (${prog.ra.length}/${reading.qs.length})</div>
+  ${reading.qs.map((q,qi)=>{
+    if(qi > prog.rqi && prog.ra.length < reading.qs.length) return '';
+    const a = prog.ra[qi];
+    return `<div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)">
+      <p style="font-size:14px;font-weight:500;margin-bottom:12px;color:var(--text)">${qi+1}. ${q.q}</p>
+      <div class="mc-grid">
+        ${q.opts.map((o,oi)=>{
+          let cls='mc-opt';
+          if(a!==undefined){cls+=' disabled';if(oi===q.c)cls+=' correct';else if(oi===a&&a!==q.c)cls+=' wrong';}
+          return `<div class="${cls}" onclick="ansR(${qi},${oi},${q.c})"><span class="mc-label">${String.fromCharCode(65+oi)}</span>${o}</div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('')}
+  ${allDone?`<div style="text-align:right"><button class="btn btn-primary" onclick="goto('writing')">Sang Luyện viết →</button></div>`:''}
+</div>`;
+}
+
+// ── WRITING ──────────────────────────────────────────────────
+function renderWriting() {
+  const writing = lesson.writing;
+  if(prog.wi >= writing.length) return moduleDone('💬','Hoàn thành luyện viết!',`Đã luyện viết ${writing.length} bài hôm nay`,'dashboard','Về Dashboard →');
+  const wp = writing[prog.wi];
+  return `
+<div class="grid-2 gap-16">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div class="section-title">💬 Luyện viết</div>
+      <span style="font-size:12px;color:var(--text3)">${prog.wi+1}/${writing.length}</span>
+    </div>
+    <div style="background:var(--bg3);border-radius:8px;padding:14px;margin-bottom:12px;font-size:13.5px;line-height:1.7;color:var(--text)">${wp.p}</div>
+    ${wp.hint?`<div style="margin-bottom:12px;font-size:12px;color:var(--text3)">💡 Gợi ý từ: <span style="color:var(--teal);font-family:'DM Mono',monospace">${wp.hint}</span></div>`:''}
+    ${!prog.wfb?`
+    <textarea id="wta" rows="4" placeholder="Viết câu trả lời bằng tiếng Anh..." style="margin-bottom:12px" oninput="prog.win=this.value">${prog.win}</textarea>
+    <button class="btn btn-primary" onclick="subW()">Nộp bài →</button>`:''}
+    ${prog.wfb?`
+    <div style="padding:14px;border-radius:8px;background:${prog.wfb.ok?'var(--green-dim)':'var(--orange-dim)'};border:1px solid ${prog.wfb.ok?'rgba(43,138,62,0.4)':'rgba(217,72,15,0.4)'};margin-bottom:12px">
+      <div style="font-weight:600;margin-bottom:8px;color:${prog.wfb.ok?'var(--green)':'var(--orange)'}">${prog.wfb.ok?'✅ Tốt lắm!':'📝 Cần cải thiện'}</div>
+      <div style="font-size:13px;color:var(--text2)">${prog.wfb.msg}</div>
+    </div>
+    <div style="padding:14px;border-radius:8px;background:var(--blue-dim);border:1px solid rgba(59,125,216,0.3);margin-bottom:12px">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Câu mẫu:</div>
+      <div style="font-size:13px;color:var(--blue);font-style:italic">${wp.sample}</div>
+    </div>
+    <button class="btn btn-primary" onclick="nxtW()">Bài tiếp theo →</button>`:''}
+  </div>
+  <div class="card">
+    <div class="section-title mb-12">📝 Bài viết của bạn</div>
+    ${prog.win?`<div style="background:var(--bg3);border-radius:8px;padding:14px;font-size:13px;color:var(--text2);line-height:1.7;font-style:italic">"${prog.win}"</div>`:`<div style="color:var(--text3);font-size:13px">Chưa có nội dung...</div>`}
+    <hr>
+    <div class="section-title mb-12" style="font-size:13px">📊 Tips viết TOEIC</div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7">
+      ✦ Dùng câu đầy đủ chủ-vị-bổ<br>
+      ✦ Tránh viết tắt không chính thức<br>
+      ✦ Dùng từ nối: however, therefore, in addition<br>
+      ✦ Kiểm tra thì động từ cho nhất quán<br>
+      ✦ Viết trang trọng, tránh tiếng lóng
+    </div>
+  </div>
+</div>`;
+}
+
+// ── DICTIONARY ───────────────────────────────────────────────
+function renderDict() {
+  const saved = window._dictResult||null;
+  return `
+<div class="card mb-16">
+  <div class="section-title mb-12">🔍 Tra từ điển TOEIC</div>
+  <div style="display:flex;gap:10px">
+    <input type="text" id="dict-input" placeholder="Nhập từ tiếng Anh cần tra..." value="${window._dictQuery||''}" onkeydown="if(event.key==='Enter')doDict()" style="flex:1">
+    <button class="btn btn-primary" onclick="doDict()">Tra →</button>
+  </div>
+  <div style="margin-top:10px;font-size:12px;color:var(--text3)">Thử: schedule, deadline, revenue, negotiate, implement, efficient</div>
+</div>
+${saved?`
+<div class="card">
+  <div class="dict-word-header">
+    <div class="dict-word">${saved.word}</div>
+    <div class="dict-phonetic">${saved.phonetic}</div>
+  </div>
+  ${saved.entries.map((e,i)=>`
+  ${i>0?'<div class="dict-divider"></div>':''}
+  <div style="margin-bottom:12px">
+    <span class="badge badge-blue" style="margin-bottom:10px">${e.pos}</span>
+    <div class="dict-meaning">${e.meaning}</div>
+    ${e.examples.map(ex=>`
+    <div class="dict-example mt-8">${ex}</div>`).join('')}
+  </div>`).join('')}
+  ${saved.synonyms?`<div class="dict-divider"></div>
+  <div style="font-size:12px;color:var(--text3);margin-bottom:8px">Từ đồng nghĩa</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">${saved.synonyms.map(s=>`<span class="badge badge-purple">${s}</span>`).join('')}</div>`:''}
+  ${saved.related?`<div style="margin-top:10px;font-size:12px;color:var(--text3);margin-bottom:8px">Từ liên quan</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">${saved.related.map(s=>`<span class="badge badge-teal" style="cursor:pointer" onclick="window._dictQuery='${s}';window._dictResult=null;doDict()">${s}</span>`).join('')}</div>`:''}
+</div>`:`<div class="card" style="text-align:center;padding:40px;color:var(--text3)">
+  <div style="font-size:40px;margin-bottom:12px">📖</div>
+  <div style="font-size:14px">Nhập từ cần tra vào ô tìm kiếm</div>
+</div>`}`;
+}
+
+function doDict() {
+  const input = document.getElementById('dict-input');
+  if(!input) return;
+  const q = input.value.trim().toLowerCase();
+  if(!q) return;
+  window._dictQuery = q;
+  const found = DICT[q];
+  if(found) {
+    window._dictResult = found;
+  } else {
+    // Generate basic result for unknown words
+    window._dictResult = {
+      word:q, phonetic:'/ - /',
+      entries:[{pos:'unknown',meaning:`Từ "${q}" chưa có trong database. Hãy thử: schedule, deadline, revenue, negotiate, implement, efficient`,examples:[]}],
+      synonyms:null, related:null
+    };
+  }
+  render();
+}
+
+// ── EXAM ─────────────────────────────────────────────────────
+// ── READING (2 passages) ─────────────────────────────────────
+function renderReading() {
+  const passages = lesson.reading; // array of 2
+  const allDone = passages.every((p,pi) => prog.ra[pi] && prog.ra[pi].length >= p.questions.length);
+  if(allDone) return moduleDone('📄','Hoàn thành đọc hiểu!',`Điểm: ${prog.sc.r}/10 câu đúng`,'writing','Sang Luyện viết →');
+
+  let html = '';
+  passages.forEach((passage, pi) => {
+    const pDone = prog.ra[pi] && prog.ra[pi].length >= passage.questions.length;
+    html += `
+<div class="card mb-16">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+    <div><span class="section-title">📄 Đoạn ${pi+1}: ${passage.title}</span></div>
+    <span class="badge badge-${pDone?'green':'teal'}">${pDone?'✓ Hoàn thành':'Part 7'}</span>
+  </div>
+  <div class="reading-passage">${passage.passage.split('\n').join('<br>')}</div>
+  <div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:12px">Câu hỏi (${(prog.ra[pi]||[]).length}/${passage.questions.length}):</div>
+  ${passage.questions.map((q,qi)=>{
+    const a = (prog.ra[pi]||[])[qi];
+    if(qi > (prog.rqi[pi]||0) && !pDone) return '';
+    return `<div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <p style="font-size:13px;font-weight:500;margin-bottom:10px">${qi+1}. ${q.q}</p>
+      <div class="mc-grid">
+        ${q.opts.map((o,oi)=>{
+          let cls='mc-opt';
+          if(a!==undefined){cls+=' disabled';if(oi===q.c)cls+=' correct';else if(oi===a&&a!==q.c)cls+=' wrong';}
+          return `<div class="${cls}" onclick="ansR2(${pi},${qi},${oi},${q.c})"><span class="mc-label">${String.fromCharCode(65+oi)}</span>${o}</div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('')}
+</div>`;
+  });
+  return html;
+}
+
+// ── CLOZE ────────────────────────────────────────────────────
+function renderCloze() {
+  const cloze = lesson.cloze;
+  if(prog.clzI >= cloze.length) return moduleDone('🔤','Hoàn thành điền từ!',`Điểm: ${prog.sc.cl}/${cloze.length} câu đúng`,'tense','Sang Điền thì →');
+  const q = cloze[prog.clzI];
+  return `
+<div class="grid-2 gap-16">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div><div class="section-title">🔤 Điền từ vựng — Cloze Test</div><div style="font-size:11px;color:var(--text3)">Chọn từ đúng điền vào chỗ trống</div></div>
+      <span style="font-size:12px;color:var(--text3)">${prog.clzI+1}/${cloze.length}</span>
+    </div>
+    <div class="progress-wrap mb-16" style="height:4px"><div class="progress-fill" style="width:${prog.clzI/cloze.length*100}%;background:var(--teal)"></div></div>
+    <div style="background:var(--bg3);border-radius:10px;padding:20px;margin-bottom:16px;font-size:15px;line-height:1.8;color:var(--text)">
+      ${q.sentence.replace('_____','<span style="border-bottom:2px solid var(--teal);padding:0 8px;color:var(--teal);font-weight:600">_____</span>')}
+    </div>
+    <div class="mc-grid">
+      ${q.opts.map((o,i)=>{
+        let cls='mc-opt';
+        if(prog.clzAns!==null){cls+=' disabled';if(i===q.c)cls+=' correct';else if(i===prog.clzAns&&prog.clzAns!==q.c)cls+=' wrong';}
+        return `<div class="${cls}" onclick="ansCloze(${i})"><span class="mc-label">${String.fromCharCode(65+i)}</span>${o}</div>`;
+      }).join('')}
+    </div>
+    ${prog.clzAns!==null?`
+    <div style="margin-top:14px;padding:12px;background:var(--teal-dim);border:1px solid rgba(11,114,133,0.3);border-radius:8px;font-size:13px;color:var(--teal);line-height:1.6">
+      💡 <strong>${q.word}</strong> — ${q.tip}
+    </div>
+    <div style="text-align:right;margin-top:12px"><button class="btn btn-primary" onclick="nextCloze()">Câu tiếp →</button></div>`:''}
+  </div>
+  <div class="card">
+    <div class="section-title mb-12">📊 Kết quả</div>
+    <div style="text-align:center;padding:16px">
+      <div style="font-size:36px;font-weight:700;color:var(--teal)">${prog.sc.cl}/${prog.clzI}</div>
+      <div style="font-size:12px;color:var(--text3)">câu đúng</div>
+    </div>
+    <div class="progress-wrap" style="height:8px"><div class="progress-fill" style="width:${prog.clzI?prog.sc.cl/prog.clzI*100:0}%;background:var(--teal)"></div></div>
+    <hr>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-top:8px">
+      <strong style="color:var(--text)">Cách học Cloze Test:</strong><br>
+      ✦ Đọc toàn câu trước khi chọn<br>
+      ✦ Chú ý nghĩa văn cảnh xung quanh<br>
+      ✦ Loại trừ đáp án không phù hợp về nghĩa<br>
+      ✦ Kiểm tra cấu trúc ngữ pháp
+    </div>
+  </div>
+</div>`;
+}
+
+// ── TENSE ────────────────────────────────────────────────────
+function renderTense() {
+  const tense = lesson.tense;
+  if(prog.tenI >= tense.length) return moduleDone('⏱️','Hoàn thành điền thì!',`Điểm: ${prog.sc.te}/${tense.length} câu đúng`,'stress','Sang Trọng âm →');
+  const q = tense[prog.tenI];
+  return `
+<div class="grid-2 gap-16">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div><div class="section-title">⏱️ Điền theo thì động từ</div><div style="font-size:11px;color:var(--text3)">Chọn dạng động từ đúng theo ngữ cảnh</div></div>
+      <span style="font-size:12px;color:var(--text3)">${prog.tenI+1}/${tense.length}</span>
+    </div>
+    <div class="progress-wrap mb-16" style="height:4px"><div class="progress-fill" style="width:${prog.tenI/tense.length*100}%;background:var(--orange)"></div></div>
+    <div style="margin-bottom:10px">
+      <span class="badge badge-orange" style="font-size:11px">🕒 ${q.tense}</span>
+    </div>
+    <div style="background:var(--bg3);border-radius:10px;padding:20px;margin-bottom:8px;font-size:15px;line-height:1.8;color:var(--text)">
+      ${q.sentence.replace('_____','<span style="border-bottom:2px solid var(--orange);padding:0 8px;color:var(--orange);font-weight:600">_____</span>')}
+    </div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:16px">Động từ gốc: <span style="color:var(--yellow);font-family:'DM Mono',monospace;font-weight:500">(${q.hint})</span></div>
+    <div class="mc-grid">
+      ${q.options.map((o,i)=>{
+        let cls='mc-opt';
+        if(prog.tenAns!==null){cls+=' disabled';if(i===q.c)cls+=' correct';else if(i===prog.tenAns&&prog.tenAns!==q.c)cls+=' wrong';}
+        return `<div class="${cls}" onclick="ansTense(${i})"><span class="mc-label">${String.fromCharCode(65+i)}</span>${o}</div>`;
+      }).join('')}
+    </div>
+    ${prog.tenAns!==null?`
+    <div class="explain-box mt-16">💡 ${q.exp}</div>
+    <div style="text-align:right;margin-top:12px"><button class="btn btn-primary" onclick="nextTense()">Câu tiếp →</button></div>`:''}
+  </div>
+  <div class="card">
+    <div class="section-title mb-12">📊 Kết quả</div>
+    <div style="text-align:center;padding:16px">
+      <div style="font-size:36px;font-weight:700;color:var(--orange)">${prog.sc.te}/${prog.tenI}</div>
+      <div style="font-size:12px;color:var(--text3)">câu đúng</div>
+    </div>
+    <div class="progress-wrap" style="height:8px"><div class="progress-fill" style="width:${prog.tenI?prog.sc.te/prog.tenI*100:0}%;background:var(--orange)"></div></div>
+    <hr>
+    <div style="font-size:12px;color:var(--text2);line-height:1.8;margin-top:8px">
+      <strong style="color:var(--text)">Dấu hiệu nhận biết thì:</strong><br>
+      🟦 <span style="color:var(--blue)">Yesterday/ago/last</span> → Simple Past<br>
+      🟩 <span style="color:var(--green)">Since/for/already</span> → Present Perfect<br>
+      🟧 <span style="color:var(--orange)">Tomorrow/next/will</span> → Future<br>
+      🟪 <span style="color:var(--purple)">By the time (past)</span> → Past Perfect<br>
+      🟦 <span style="color:var(--teal)">If + present</span> → Future (Type 1)
+    </div>
+  </div>
+</div>`;
+}
+
+// ── STRESS ───────────────────────────────────────────────────
+function renderStress() {
+  const stress = lesson.stress;
+  if(prog.strI >= stress.length) return moduleDone('🎵','Hoàn thành trọng âm!',`Điểm: ${prog.sc.st}/${stress.length} câu đúng`,'videos','Xem Video học →');
+  const q = stress[prog.strI];
+  return `
+<div class="grid-2 gap-16">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div><div class="section-title">🎵 Trọng âm từ — Word Stress</div><div style="font-size:11px;color:var(--text3)">Kỹ năng Listening TOEIC</div></div>
+      <span style="font-size:12px;color:var(--text3)">${prog.strI+1}/${stress.length}</span>
+    </div>
+    <div class="progress-wrap mb-16" style="height:4px"><div class="progress-fill" style="width:${prog.strI/stress.length*100}%;background:var(--yellow)"></div></div>
+    <div style="background:var(--bg3);border-radius:10px;padding:16px;margin-bottom:16px;font-size:14px;color:var(--text);line-height:1.6">${q.q}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      ${q.words.map((w,i)=>{
+        let bg='var(--bg3)'; let col='var(--text2)'; let border='var(--border2)';
+        if(prog.strAns!==null){
+          if(i===q.correct){bg='var(--green-dim)';col='var(--green)';border='rgba(43,138,62,0.4)';}
+          else if(i===prog.strAns&&prog.strAns!==q.correct){bg='var(--red-dim)';col='var(--red)';border='rgba(201,42,42,0.4)';}
+        }
+        return `<div onclick="ansStress(${i})" style="padding:14px;border-radius:8px;border:1px solid ${border};background:${bg};cursor:${prog.strAns!==null?'default':'pointer'};text-align:center;font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:${col};transition:all 0.15s"
+          ${prog.strAns===null?`onmouseover="if(!this.classList.contains('sel'))this.style.borderColor='var(--yellow)'" onmouseout="if(!this.classList.contains('sel'))this.style.borderColor='var(--border2)'"`:''}>${w}</div>`;
+      }).join('')}
+    </div>
+    ${prog.strAns!==null?`
+    <div style="padding:14px;background:var(--yellow-dim);border:1px solid rgba(230,119,0,0.3);border-radius:8px;font-size:13px;color:var(--text2);line-height:1.6">
+      💡 ${q.explain}<br><span style="color:var(--yellow);margin-top:6px;display:block">📌 ${q.tip}</span>
+    </div>
+    <div style="text-align:right;margin-top:12px"><button class="btn btn-primary" onclick="nextStress()">Câu tiếp →</button></div>`:''}
+  </div>
+  <div class="card">
+    <div class="section-title mb-12">📊 Kết quả</div>
+    <div style="text-align:center;padding:16px">
+      <div style="font-size:36px;font-weight:700;color:var(--yellow)">${prog.sc.st}/${prog.strI}</div>
+      <div style="font-size:12px;color:var(--text3)">câu đúng</div>
+    </div>
+    <div class="progress-wrap" style="height:8px"><div class="progress-fill" style="width:${prog.strI?prog.sc.st/prog.strI*100:0}%;background:var(--yellow)"></div></div>
+    <hr>
+    <div style="font-size:12px;color:var(--text2);line-height:1.8;margin-top:8px">
+      <strong style="color:var(--text)">Quy tắc trọng âm cơ bản:</strong><br>
+      ✦ Danh từ 2 âm: thường nhấn âm tiết <strong>1</strong><br>
+      ✦ Động từ 2 âm: thường nhấn âm tiết <strong>2</strong><br>
+      ✦ Hậu tố -ion, -ity, -ic: nhấn âm tiết <strong>trước</strong><br>
+      ✦ Từ ghép: nhấn phần <strong>đầu</strong><br>
+      ✦ REcord (n) vs reCORD (v)
+    </div>
+  </div>
+</div>`;
+}
+
+// ── VIDEOS ───────────────────────────────────────────────────
+function renderVideos() {
+  const videos = lesson.videos||VIDEOS.slice(0,3);
+  const allVids = VIDEOS;
+  return `
+<div class="card mb-16">
+  <div class="section-title mb-4">▶️ Video hôm nay — ${lesson.topic}</div>
+  <div style="font-size:12px;color:var(--text3);margin-bottom:16px">3 video được chọn phù hợp với chủ đề và trình độ học hôm nay</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:0">
+    ${videos.map(v=>`
+    <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all 0.15s" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'" onclick="window.open('https://www.youtube.com/watch?v=${v.id}','_blank')">
+      <div style="position:relative;background:#111;padding-top:56.25%">
+        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.25)">
+          <div style="background:rgba(255,0,0,0.9);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 12px rgba(0,0,0,0.4)">▶</div>
+        </div>
+        <div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,0.8);padding:2px 7px;border-radius:4px;font-size:10px;color:#fff;font-weight:500">${v.duration}</div>
+        <div style="position:absolute;top:6px;left:6px;background:rgba(255,0,0,0.85);padding:2px 7px;border-radius:4px;font-size:9px;color:#fff;font-weight:700">YouTube ↗</div>
+      </div>
+      <div style="padding:10px">
+        <div style="font-size:12px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:4px">${v.title}</div>
+        <div style="font-size:11px;color:var(--red);margin-bottom:6px">${v.channel}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span class="badge badge-blue" style="font-size:10px">${v.topic}</span>
+          <span style="font-size:11px;color:var(--text3)">Mở YouTube ↗</span>
+        </div>
+      </div>
+    </div>`).join('')}
+  </div>
+</div>
+${window._selVid?`
+<div class="card mb-16" style="border:1px solid rgba(255,0,0,0.3)">
+  <div style="display:flex;align-items:center;gap:12px;padding:4px 0">
+    <div style="font-size:24px">▶️</div>
+    <div>
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px">Đang xem: ${(VIDEOS.find(v=>v.id===window._selVid)||{}).title||''}</div>
+      <div style="font-size:12px;color:var(--text3)">Video đã mở trong tab YouTube mới</div>
+    </div>
+    <button class="btn" style="margin-left:auto;background:#ff0000;color:#fff;font-size:12px;padding:7px 14px" onclick="window.open('https://www.youtube.com/watch?v='+window._selVid,'_blank')">Mở lại ↗</button>
+  </div>
+</div>`:''}
+<div class="card">
+  <div class="section-title mb-12">📚 Toàn bộ playlist TOEIC</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    ${allVids.map(v=>`
+    <div onclick="window._selVid='${v.id}';window.open('https://www.youtube.com/watch?v=${v.id}','_blank');render()" style="display:flex;gap:10px;padding:10px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all 0.15s" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="position:relative;flex-shrink:0">
+        <img src="https://img.youtube.com/vi/${v.id}/default.jpg" style="width:80px;height:45px;object-fit:cover;border-radius:4px;display:block">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+          <div style="background:rgba(255,0,0,0.85);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:9px">▶</div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.title}</div>
+        <div style="font-size:11px;color:var(--text3)">${v.duration} • ${v.channel}</div>
+        <div style="font-size:10px;color:var(--red);margin-top:2px">↗ Mở YouTube</div>
+      </div>
+    </div>`).join('')}
+  </div>
+</div>`;
+}
+
+function renderExam() {
+  if(!examState) return renderExamMenu();
+  if(examState.finished) return renderExamResult();
+  return renderExamQuestion();
+}
+
+function renderExamMenu() {
+  return `
+<div class="grid-2 gap-16">
+  <div class="card" style="border:1px solid rgba(59,125,216,0.3)">
+    <div style="font-size:32px;margin-bottom:12px">⚡</div>
+    <div style="font-size:16px;font-weight:600;margin-bottom:8px">Mini TOEIC Test</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px">
+      20 câu hỏi • Part 5, 6, 7<br>
+      Thời gian: <strong>20 phút</strong><br>
+      Phù hợp: Luyện tập nhanh hằng ngày
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <span class="badge badge-blue">Part 5</span>
+      <span class="badge badge-purple">Part 6</span>
+      <span class="badge badge-teal">Part 7</span>
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="startExam('mini')">Bắt đầu Mini Test →</button>
+  </div>
+  <div class="card" style="border:1px solid rgba(103,65,217,0.3)">
+    <div style="font-size:32px;margin-bottom:12px">🏆</div>
+    <div style="font-size:16px;font-weight:600;margin-bottom:8px">Full TOEIC Practice</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px">
+      35+ câu hỏi • Part 5 + 6 + 7<br>
+      Thời gian: <strong>75 phút</strong><br>
+      Phù hợp: Luyện thi thực chiến
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <span class="badge badge-blue">Part 5 (20 câu)</span>
+      <span class="badge badge-purple">Part 6 (8 câu)</span>
+      <span class="badge badge-teal">Part 7 (12 câu)</span>
+    </div>
+    <button class="btn btn-primary" style="width:100%;background:var(--purple);color:#ffffff" onclick="startExam('full')">Bắt đầu Full Test →</button>
+  </div>
+</div>
+${window._examHistory?`
+<div class="card mt-16">
+  <div class="section-title mb-12">📊 Lịch sử thi</div>
+  ${window._examHistory.slice(-5).reverse().map(h=>`
+  <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+    <span class="badge ${h.score/h.total>=0.8?'badge-green':h.score/h.total>=0.6?'badge-blue':'badge-red'}">${Math.round(h.score/h.total*100)}%</span>
+    <span style="font-size:13px;color:var(--text2)">${h.type==='mini'?'Mini Test':'Full Test'}</span>
+    <span style="font-size:13px;color:var(--text)">${h.score}/${h.total} câu đúng</span>
+    <span style="font-size:11px;color:var(--text3);margin-left:auto">${h.date}</span>
+  </div>`).join('')}
+</div>`:``}`;
+}
+
+function startExam(type) {
+  const questions = type==='mini' ? MINI_EXAM.questions :
+    FULL_EXAM.parts.flatMap(p=>p.questions);
+  const timeLimit = type==='mini' ? MINI_EXAM.time : FULL_EXAM.time;
+  examState = {type, questions, timeLimit, timeLeft:timeLimit, current:0, answers:[], finished:false, startTime:Date.now()};
+  if(examTimer) clearInterval(examTimer);
+  examTimer = setInterval(()=>{
+    examState.timeLeft--;
+    if(examState.timeLeft<=0){clearInterval(examTimer);finishExam();}
+    else {
+      const td=document.getElementById('exam-timer');
+      if(td){const m=Math.floor(examState.timeLeft/60);const s=examState.timeLeft%60;td.textContent=`${m}:${s.toString().padStart(2,'0')}`;td.className='timer-display'+(examState.timeLeft<60?' warning':'');}
+    }
+  },1000);
+  render();
+}
+
+function renderExamQuestion() {
+  const es=examState; const q=es.questions[es.current]; const a=es.answers[es.current];
+  const m=Math.floor(es.timeLeft/60); const s=es.timeLeft%60;
+  return `
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+  <div>
+    <span class="badge badge-${q.type==='Part5'?'blue':q.type==='Part6'?'purple':'teal'}" style="margin-right:8px">${q.type}</span>
+    <span style="font-size:13px;color:var(--text3)">Câu ${es.current+1}/${es.questions.length}</span>
+  </div>
+  <div class="timer-display${es.timeLeft<60?' warning':''}" id="exam-timer" style="padding:8px 16px;font-size:18px">${m}:${s.toString().padStart(2,'0')}</div>
+</div>
+<div class="progress-wrap mb-16" style="height:6px"><div class="progress-fill" style="width:${es.current/es.questions.length*100}%;background:var(--blue)"></div></div>
+<div class="card">
+  <div style="background:var(--bg3);border-radius:8px;padding:16px;margin-bottom:16px;font-size:14px;line-height:1.7">${q.q}</div>
+  <div class="mc-grid">
+    ${q.opts.map((o,i)=>{
+      let cls='mc-opt';
+      if(a!==undefined){cls+=' disabled';if(i===q.c)cls+=' correct';else if(i===a&&a!==q.c)cls+=' wrong';}
+      return `<div class="${cls}" onclick="ansExam(${i})"><span class="mc-label">${String.fromCharCode(65+i)}</span>${o}</div>`;
+    }).join('')}
+  </div>
+  ${a!==undefined?`<div class="explain-box mt-16">💡 ${q.exp}</div>
+  <div style="display:flex;justify-content:space-between;margin-top:12px">
+    <span style="font-size:12px;color:var(--text3)">Đúng ${es.answers.filter((ans,i)=>ans===es.questions[i].c).length}/${es.current+1}</span>
+    ${es.current<es.questions.length-1?`<button class="btn btn-primary" onclick="nextExamQ()">Câu tiếp →</button>`:`<button class="btn btn-green" onclick="finishExam()">Nộp bài 🏆</button>`}
+  </div>`:''}
+</div>
+<div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
+  ${es.questions.map((_,i)=>{
+    const a2=es.answers[i];
+    let bg=i===es.current?'var(--blue)':(a2!==undefined?(a2===es.questions[i].c?'var(--green)':'var(--red)'):'var(--bg3)');
+    return `<div style="width:28px;height:28px;border-radius:6px;background:${bg};display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;color:${bg!=='var(--bg3)'?'#ffffff':'var(--text3)'}" onclick="jumpExam(${i})">${i+1}</div>`;
+  }).join('')}
+</div>`;
+}
+
+function renderExamResult() {
+  const es=examState;
+  const correct=es.answers.filter((a,i)=>a===es.questions[i].c).length;
+  const total=es.questions.length;
+  const pct=Math.round(correct/total*100);
+  const byPart={};
+  es.questions.forEach((q,i)=>{
+    if(!byPart[q.type]) byPart[q.type]={c:0,t:0};
+    byPart[q.type].t++;
+    if(es.answers[i]===q.c) byPart[q.type].c++;
+  });
+  return `
+<div class="card text-center mb-16" style="padding:32px">
+  <div style="font-size:52px;margin-bottom:12px">${pct>=80?'🏆':pct>=60?'🎯':'📚'}</div>
+  <div style="font-size:28px;font-weight:700;margin-bottom:4px;color:${pct>=80?'var(--green)':pct>=60?'var(--blue)':'var(--orange)'}">${pct}%</div>
+  <div style="font-size:15px;color:var(--text2)">${correct}/${total} câu đúng</div>
+  <div style="font-size:13px;color:var(--text3);margin-top:6px">${pct>=80?'Xuất sắc! Bạn đã nắm vững phần này':pct>=60?'Khá tốt! Cần ôn lại một số phần':'Cần luyện tập thêm. Đừng nản lòng!'}</div>
+</div>
+<div class="grid-3 gap-16 mb-16">
+  ${Object.entries(byPart).map(([part,s])=>`
+  <div class="stat-card" style="background:var(--bg2);border:1px solid var(--border)">
+    <span class="badge badge-${part==='Part5'?'blue':part==='Part6'?'purple':'teal'}" style="width:fit-content">${part}</span>
+    <div class="stat-val" style="color:${s.c/s.t>=0.7?'var(--green)':'var(--orange)'}">${Math.round(s.c/s.t*100)}%</div>
+    <div class="stat-label">${s.c}/${s.t} đúng</div>
+  </div>`).join('')}
+</div>
+<div class="card mb-16">
+  <div class="section-title mb-12">📋 Chi tiết từng câu</div>
+  ${es.questions.map((q,i)=>{
+    const correct2=es.answers[i]===q.c;
+    const userAns=es.answers[i]!==undefined?q.opts[es.answers[i]]:'(Chưa trả lời)';
+    return `<div style="border-radius:10px;margin-bottom:10px;overflow:hidden;border:1px solid ${correct2?'rgba(43,138,62,0.25)':'rgba(201,42,42,0.25)'}">
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:${correct2?'rgba(43,138,62,0.07)':'rgba(201,42,42,0.07)'}">
+        <span style="font-size:16px;flex-shrink:0;margin-top:1px">${correct2?'✅':'❌'}</span>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px;background:${q.type==='Part5'?'var(--blue-dim)':q.type==='Part6'?'var(--purple-dim)':'var(--teal-dim)'};color:${q.type==='Part5'?'var(--blue)':q.type==='Part6'?'var(--purple)':'var(--teal)'}">${q.type}</span>
+            <span style="font-size:11px;color:var(--text3)">Câu ${i+1}</span>
+          </div>
+          <div style="font-size:13px;color:var(--text);margin-bottom:8px;line-height:1.5">${q.q}</div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <div style="font-size:12px"><span style="color:var(--text3)">Bạn chọn: </span><span style="font-weight:500;color:${correct2?'var(--green)':'var(--red)'}">${userAns}</span></div>
+            ${!correct2?`<div style="font-size:12px"><span style="color:var(--text3)">Đáp án đúng: </span><span style="color:var(--green);font-weight:500">${q.opts[q.c]}</span></div>`:''}
+          </div>
+        </div>
+      </div>
+      ${!correct2&&(q.wrong||q.why||q.fix)?`
+      <div style="padding:12px 14px;background:var(--bg3);border-top:1px solid rgba(201,42,42,0.2)">
+        ${q.wrong?`<div style="margin-bottom:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--red);letter-spacing:0.5px;margin-bottom:5px;display:flex;align-items:center;gap:6px">
+            <span>⚠️</span> SAI Ở ĐÂU
+          </div>
+          <div style="font-size:12.5px;color:var(--text2);line-height:1.6;padding-left:4px">${q.wrong}</div>
+        </div>`:''}
+        ${q.why?`<div style="margin-bottom:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--yellow);letter-spacing:0.5px;margin-bottom:5px;display:flex;align-items:center;gap:6px">
+            <span>💡</span> TẠI SAO
+          </div>
+          <div style="font-size:12.5px;color:var(--text2);line-height:1.6;padding-left:4px">${q.why}</div>
+        </div>`:''}
+        ${q.fix?`<div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:0.5px;margin-bottom:5px;display:flex;align-items:center;gap:6px">
+            <span>✅</span> SỬA LẠI THẾ NÀO
+          </div>
+          <div style="font-size:12.5px;color:var(--text2);line-height:1.6;padding-left:4px">${q.fix}</div>
+        </div>`:''}
+      </div>`:''}
+    </div>`;
+  }).join('')}
+</div>
+<div style="display:flex;gap:10px;justify-content:center">
+  <button class="btn btn-ghost" onclick="examState=null;render()">← Về menu đề thi</button>
+  <button class="btn btn-primary" onclick="startExam(examState.type)">Thi lại</button>
+</div>`;
+}
+
+function ansExam(i) {
+  if(examState.answers[examState.current]!==undefined) return;
+  examState.answers[examState.current]=i;
+  render();
+}
+function nextExamQ(){examState.current++;render();}
+function jumpExam(i){examState.current=i;render();}
+function finishExam(){
+  clearInterval(examTimer);examTimer=null;
+  examState.finished=true;
+  const correct=examState.answers.filter((a,i)=>a===examState.questions[i].c).length;
+  if(!window._examHistory) window._examHistory=[];
+  window._examHistory.push({type:examState.type,score:correct,total:examState.questions.length,date:TODAY});
+  P.xp += correct*15;
+  ST.s('toeic_p',P);
+  render();
+}
+
+// ── ROADMAP ──────────────────────────────────────────────────
+function renderRoadmap() {
+  const now=new Date(); const year=now.getFullYear(); const month=now.getMonth();
+  const tabs=['Theo tháng','Theo tuần','Lộ trình năm'];
+  if(!window._roadmapTab) window._roadmapTab=0;
+  const t=window._roadmapTab;
+
+  let content='';
+  if(t===0) content=renderRoadmapMonth(year,month);
+  else if(t===1) content=renderRoadmapWeek();
+  else content=renderRoadmapYear();
+
+  return `
+<div class="sub-tabs mb-16">
+  ${tabs.map((tab,i)=>`<button class="sub-tab${i===t?' active':''}" onclick="window._roadmapTab=${i};render()">${tab}</button>`).join('')}
+</div>
+${content}`;
+}
+
+function renderRoadmapMonth(year,month){
+  const monthNames=['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+  const days=['T2','T3','T4','T5','T6','T7','CN'];
+  const firstDay=new Date(year,month,1).getDay();
+  const offset=(firstDay+6)%7;
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const todayDate=new Date().getDate();
+
+  return `
+<div class="card mb-16">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+    <div class="section-title">${monthNames[month]} ${year}</div>
+    <span class="badge badge-blue">Level ${P.level} — ${getLevelName(P.level)}</span>
+  </div>
+  <div class="cal-grid mb-8">
+    ${days.map(d=>`<div class="cal-day header">${d}</div>`).join('')}
+    ${Array(offset).fill('<div class="cal-day empty"></div>').join('')}
+    ${Array.from({length:daysInMonth},(_,i)=>{
+      const d=i+1;
+      const dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const hist=P.history?.[dateStr];
+      const isToday=dateStr===TODAY;
+      const isFuture=new Date(dateStr)>new Date(TODAY);
+      let cls='cal-day';
+      if(isToday) cls+=' today';
+      else if(hist) cls+=' done';
+      else if(isFuture) cls+=' future';
+      else if(new Date(dateStr)<new Date(TODAY)) cls+=' missed';
+      return `<div class="${cls}" title="${hist?TOPICS[(hist.day||1-1)%TOPICS.length]:''}">${d}</div>`;
+    }).join('')}
+  </div>
+  <div style="display:flex;gap:16px;font-size:12px;color:var(--text3)">
+    <span>🟢 Đã học</span><span>🔵 Hôm nay</span><span>⬛ Chưa học / Chưa tới</span>
+  </div>
+</div>
+<div class="card">
+  <div class="section-title mb-12">📈 Thống kê tháng này</div>
+  <div class="grid-4">
+    ${[
+      {label:'Ngày đã học',val:Object.keys(P.history||{}).filter(d=>d.startsWith(`${year}-${String(month+1).padStart(2,'0')}`)).length,color:'var(--green)'},
+      {label:'Từ học được',val:Object.values(P.history||{}).filter(h=>h.month===month).reduce((s,h)=>s+(h.vocabCount||10),0),color:'var(--blue)'},
+      {label:'Streak hiện tại',val:P.streak,color:'var(--orange)'},
+      {label:'Tổng XP tháng',val:Object.values(P.history||{}).filter(h=>h.month===month).reduce((s,h)=>s+(h.xp||50),0),color:'var(--purple)'},
+    ].map(s=>`<div class="stat-card" style="background:var(--bg3)"><div class="stat-val" style="color:${s.color}">${s.val}</div><div class="stat-label">${s.label}</div></div>`).join('')}
+  </div>
+</div>`;
+}
+
+function renderRoadmapWeek(){
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const now=new Date(); const dow=(now.getDay()+6)%7;
+  const weekDates=Array.from({length:7},(_,i)=>{
+    const d=new Date(now); d.setDate(now.getDate()-dow+i);
+    return d.toISOString().slice(0,10);
+  });
+  return `
+<div class="card">
+  <div class="section-title mb-16">📅 Tuần này</div>
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px">
+    ${weekDates.map((date,i)=>{
+      const hist=P.history?.[date];
+      const isToday=date===TODAY;
+      const dayNum=parseInt(date.split('-')[2]);
+      return `<div style="text-align:center;padding:12px 4px;border-radius:8px;border:1px solid ${isToday?'rgba(59,125,216,0.5)':hist?'rgba(158,206,106,0.3)':'var(--border)'};background:${isToday?'var(--blue-dim)':hist?'var(--green-dim)':'var(--bg3)'}">
+        <div style="font-size:11px;color:${isToday?'var(--blue)':hist?'var(--green)':'var(--text3)'};margin-bottom:4px">${days[i]}</div>
+        <div style="font-size:18px;font-weight:600;color:${isToday?'var(--blue)':hist?'var(--green)':'var(--text2)'}">${dayNum}</div>
+        <div style="font-size:18px;margin-top:6px">${hist?'✅':isToday?'📖':'○'}</div>
+        ${hist?`<div style="font-size:10px;color:var(--text3);margin-top:4px">${hist.grammarScore||0}/5 GP</div>`:''}
+      </div>`;
+    }).join('')}
+  </div>
+</div>
+<div class="card mt-16">
+  <div class="section-title mb-12">🗺️ Chủ đề tuần này → tuần sau</div>
+  ${Array.from({length:2},(_,w)=>`
+  <div style="margin-bottom:12px">
+    <div style="font-size:12px;font-weight:600;color:var(--text3);margin-bottom:8px">Tuần ${w===0?'này':'tới'}</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+      ${Array.from({length:5},(_2,d)=>{
+        const dayNum=P.day+w*7+d;
+        const topic=TOPICS[(dayNum-1)%TOPICS.length];
+        return `<div style="padding:8px;border-radius:6px;background:var(--bg3);font-size:11px;text-align:center;color:var(--text2)">${topic.split(' ')[0]}</div>`;
+      }).join('')}
+    </div>
+  </div>`).join('')}
+</div>`;
+}
+
+function renderRoadmapYear(){
+  const months=['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12'];
+  const now=new Date(); const curMonth=now.getMonth();
+  return `
+<div class="card mb-16">
+  <div class="section-title mb-12">📊 Lộ trình 12 tháng</div>
+  <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px">
+    ${months.map((m,i)=>{
+      const isPast=i<curMonth; const isCur=i===curMonth;
+      const daysInMonth=new Date(now.getFullYear(),i+1,0).getDate();
+      const doneCount=Object.keys(P.history||{}).filter(d=>parseInt(d.split('-')[1])-1===i).length;
+      const pct=isPast||isCur?Math.round(doneCount/daysInMonth*100):0;
+      return `<div style="text-align:center;padding:12px;border-radius:8px;border:1px solid ${isCur?'rgba(59,125,216,0.4)':'var(--border)'};background:${isCur?'var(--blue-dim)':'var(--bg3)'}">
+        <div style="font-size:13px;font-weight:600;color:${isCur?'var(--blue)':'var(--text2)'};margin-bottom:6px">${m}</div>
+        ${isPast||isCur?`<div style="font-size:10px;color:var(--text3);margin-bottom:4px">${doneCount}/${daysInMonth}</div>
+        <div class="progress-wrap" style="height:4px"><div class="progress-fill" style="width:${pct}%;background:${isCur?'var(--blue)':'var(--green)'}"></div></div>
+        <div style="font-size:11px;color:${isCur?'var(--blue)':'var(--green)'};margin-top:4px">${pct}%</div>`:`<div style="font-size:11px;color:var(--text3)">Sắp tới</div>`}
+      </div>`;
+    }).join('')}
+  </div>
+</div>
+<div class="card">
+  <div class="section-title mb-12">🎯 Mục tiêu năm</div>
+  ${[
+    {label:'Hoàn thành tất cả 30 chủ đề TOEIC',done:P.day>=30,progress:Math.min(100,Math.round(P.day/30*100))},
+    {label:'Học 1,000 từ vựng',done:P.totalWords>=1000,progress:Math.min(100,Math.round(P.totalWords/1000*100))},
+    {label:'Duy trì streak 30 ngày',done:P.streak>=30,progress:Math.min(100,Math.round(P.streak/30*100))},
+    {label:'Đạt Level 5 (Intermediate)',done:P.level>=5,progress:Math.min(100,Math.round(P.level/5*100))},
+    {label:'Hoàn thành 50 đề thi thực hành',done:(window._examHistory||[]).length>=50,progress:Math.min(100,Math.round((window._examHistory||[]).length/50*100))},
+  ].map(g=>`
+  <div style="margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px">
+      <span style="color:${g.done?'var(--green)':'var(--text2)'}">${g.done?'✅ ':'○ '}${g.label}</span>
+      <span style="color:var(--text3)">${g.progress}%</span>
+    </div>
+    <div class="progress-wrap" style="height:6px"><div class="progress-fill" style="width:${g.progress}%;background:${g.done?'var(--green)':'var(--blue)'}"></div></div>
+  </div>`).join('')}
+</div>`;
+}
+
+// ── MODULE DONE ──────────────────────────────────────────────
+function moduleDone(icon,title,sub,nextPage,nextLabel) {
+  return `
+<div style="display:flex;align-items:center;justify-content:center;height:60vh">
+  <div class="card text-center" style="max-width:400px;padding:40px">
+    <div style="font-size:56px;margin-bottom:16px">${icon}</div>
+    <div style="font-size:20px;font-weight:600;color:var(--green);margin-bottom:8px">${title}</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:24px">${sub}</div>
+    <button class="btn btn-primary" onclick="goto('${nextPage}')">${nextLabel}</button>
+  </div>
+</div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════════════════════════
+function doFlip(){prog.fl=!prog.fl;render();}
+async function cardAns(r){
+  prog.vr.push(r);
+  if(r==='k'){P.totalWords++;P.xp+=10;}
+  const nx=prog.ci+1;
+  if(nx<lesson.vocab.length){prog.ci=nx;prog.fl=false;}
+  await save();render();
+}
+async function ansG(i){
+  if(prog.ga!==null)return;
+  prog.ga=i;
+  if(i===lesson.grammar[prog.gi].c){prog.sc.g++;P.xp+=20;}
+  await save();render();
+}
+async function nxtG(){prog.gi++;prog.ga=null;await save();render();}
+// ansR replaced by ansR2
+function subW(){
+  const txt=prog.win.trim();if(!txt)return;
+  const wp=lesson.writing[prog.wi];
+  const hints=wp.hint.toLowerCase().split(',').map(s=>s.trim());
+  const tl=txt.toLowerCase();
+  const matched=hints.filter(h=>tl.includes(h.split(' ')[0])).length;
+  const ok=matched>=Math.ceil(hints.length*0.4)&&txt.length>8;
+  prog.wfb={ok,msg:ok?`Câu viết hợp lý! Đã dùng ${matched}/${hints.length} từ gợi ý.`:`Thử dùng thêm các từ: ${hints.filter(h=>!tl.includes(h.split(' ')[0])).slice(0,3).join(', ')}`};
+  if(ok) P.xp+=30;
+  save();render();
+}
+async function nxtW(){prog.wi++;prog.win='';prog.wfb=null;await save();render();}
+
+// New module actions
+let clzAnswered = null;
+let tenAnswered = null;
+let strAnswered = null;
+
+Object.defineProperty(prog, 'clzAns', {get:()=>clzAnswered, set:v=>{clzAnswered=v;}, configurable:true});
+Object.defineProperty(prog, 'tenAns', {get:()=>tenAnswered, set:v=>{tenAnswered=v;}, configurable:true});
+Object.defineProperty(prog, 'strAns', {get:()=>strAnswered, set:v=>{strAnswered=v;}, configurable:true});
+
+async function ansCloze(i){
+  if(clzAnswered!==null)return;
+  clzAnswered=i;
+  const q=lesson.cloze[prog.clzI];
+  if(i===q.c){prog.sc.cl++;P.xp+=15;}
+  await save();render();
+}
+async function nextCloze(){prog.clzI++;clzAnswered=null;await save();render();}
+
+async function ansTense(i){
+  if(tenAnswered!==null)return;
+  tenAnswered=i;
+  const q=lesson.tense[prog.tenI];
+  if(i===q.c){prog.sc.te++;P.xp+=15;}
+  await save();render();
+}
+async function nextTense(){prog.tenI++;tenAnswered=null;await save();render();}
+
+async function ansStress(i){
+  if(strAnswered!==null)return;
+  strAnswered=i;
+  const q=lesson.stress[prog.strI];
+  if(i===q.correct){prog.sc.st++;P.xp+=15;}
+  await save();render();
+}
+async function nextStress(){prog.strI++;strAnswered=null;await save();render();}
+
+// Updated reading answer for 2 passages
+async function ansR2(pi,qi,oi,c){
+  if(!prog.ra[pi]) prog.ra[pi]=[];
+  if(prog.ra[pi][qi]!==undefined)return;
+  prog.ra[pi][qi]=oi;
+  if(oi===c){prog.sc.r++;P.xp+=20;}
+  if(!prog.rqi) prog.rqi=[0,0];
+  if(qi<lesson.reading[pi].questions.length-1) prog.rqi[pi]=qi+1;
+  await save();render();
+}
+
+async function save(){
+  await ST.s('toeic_prog_'+TODAY,prog);
+  await ST.s('toeic_p',P);
+  updateSidebar();
+}
+
+async function finishDay(){
+  const yesterday=new Date(Date.now()-86400000).toISOString().slice(0,10);
+  P.streak=(P.lastDate===yesterday)?(P.streak||0)+1:1;
+  P.xp+=100; // bonus
+  if(P.xp >= P.level*500) P.level++;
+  if(!P.history) P.history={};
+  P.history[TODAY]={
+    day:P.day, vocabDone:true, grammarScore:prog.sc.g,
+    readingScore:prog.sc.r, writingDone:true, vocabCount:lesson.vocab.length,
+    xp:100, month:new Date().getMonth()
+  };
+  P.day++;
+  P.lastDate=TODAY;
+  await ST.s('toeic_p',P);
+  await ST.s('toeic_prog_'+TODAY,prog);
+  updateSidebar();
+  alert(`🏆 Xuất sắc! Hoàn thành Ngày ${P.day-1}!\n+100 XP bonus\nStreak: ${P.streak} ngày 🔥`);
+  // Reset for next day preview
+  goto('dashboard');
+}
+
+function updateSidebar(){
+  const se=document.getElementById('sb-streak');
+  if(se) se.textContent=P.streak||1;
+  const xp=document.getElementById('xp-pill');
+  if(xp) xp.textContent=`⚡ ${P.xp} XP`;
+  const lv=document.getElementById('level-pill');
+  if(lv) lv.textContent=`🎖️ ${getLevelName(P.level)}`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+async function init(){
+  const savedP = await ST.g('toeic_p');
+  if(savedP) { Object.assign(P,savedP); }
+
+  const dayIdx = (P.day-1) % TOPICS.length;
+  lesson = buildLesson(P.day);
+
+  const savedProg = await ST.g('toeic_prog_'+TODAY);
+  if(savedProg) {
+    Object.assign(prog,savedProg);
+    if(!Array.isArray(prog.ra)) prog.ra=[[],[]];
+    if(!Array.isArray(prog.rqi)) prog.rqi=[0,0];
+    if(prog.clzI===undefined) prog.clzI=0;
+    if(prog.tenI===undefined) prog.tenI=0;
+    if(prog.strI===undefined) prog.strI=0;
+    if(!prog.sc.cl) prog.sc.cl=0;
+    if(!prog.sc.te) prog.sc.te=0;
+    if(!prog.sc.st) prog.sc.st=0;
+  }
+
+  updateSidebar();
+  document.getElementById('page-sub').textContent = pageInfo.dashboard.sub();
+  document.getElementById('loading-overlay').style.display='none';
+  render();
+}
+
+init();
+</script>
+</body>
+</html>
