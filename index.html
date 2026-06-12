@@ -688,18 +688,27 @@ const WRITING_POOL = [
   {p:"Viết câu yêu cầu phòng kế toán cung cấp báo cáo tài chính quý 1.",hint:"request, accounting, financial report, Q1, provide",sample:"I would like to request that the accounting team provide the Q1 financial report by the end of this week for our upcoming board meeting."}
 ];
 
-// YouTube videos - curated TOEIC playlist
+// YouTube videos — cập nhật 2024/2025, phân loại theo kỹ năng
 const VIDEOS = [
-  {id:"UU_HCFI7RaM",title:"TOEIC Part 5 & 6 — Grammar Shortcuts",channel:"TOEIC Master",duration:"18:24",topic:"Ngữ pháp Part 5+6",desc:"Kỹ thuật làm nhanh Part 5 và 6, tập trung vào các điểm ngữ pháp hay ra thi.",tags:["grammar","part5","part6"]},
-  {id:"QbpBMOdWPlU",title:"TOEIC Vocabulary — Business English 500 Words",channel:"TOEIC Daily",duration:"22:15",topic:"Từ vựng Business",desc:"500 từ vựng kinh doanh phổ biến nhất trong đề thi TOEIC.",tags:["vocabulary","business"]},
-  {id:"2HEU6DXzRYI",title:"TOEIC Reading Part 7 — Skimming & Scanning",channel:"E2 TOEIC",duration:"15:40",topic:"Đọc hiểu Part 7",desc:"Kỹ thuật đọc nhanh và tìm đáp án hiệu quả trong Part 7.",tags:["reading","part7"]},
-  {id:"3UmZXs7Q7jU",title:"English Pronunciation — Word Stress Rules",channel:"Rachel's English",duration:"12:30",topic:"Trọng âm từ",desc:"Quy tắc trọng âm tiếng Anh — nền tảng cho phần Listening TOEIC.",tags:["pronunciation","stress"]},
-  {id:"rBAMGaMVd-4",title:"TOEIC Listening — Part 1 & 2 Tips",channel:"TOEIC Official",duration:"20:00",topic:"Listening Part 1+2",desc:"Chiến lược làm bài Listening Part 1 (Photographs) và Part 2 (Q&A).",tags:["listening","part1","part2"]},
-  {id:"lzVMBTG0nSM",title:"Business Email Writing — Professional English",channel:"English with Lucy",duration:"16:45",topic:"Viết email công việc",desc:"Cách viết email kinh doanh chuyên nghiệp bằng tiếng Anh.",tags:["writing","email","business"]},
-  {id:"dBFcRhOqYKE",title:"TOEIC Part 3 & 4 — Conversation & Talks",channel:"E2 TOEIC",duration:"19:20",topic:"Listening Part 3+4",desc:"Cách nghe hiểu hội thoại và bài nói trong TOEIC Listening.",tags:["listening","part3","part4"]},
-  {id:"AkXMtB5G-Dw",title:"Common TOEIC Grammar Mistakes",channel:"TOEIC Master",duration:"14:30",topic:"Lỗi ngữ pháp thường gặp",desc:"Top 10 lỗi ngữ pháp người Việt hay mắc trong TOEIC.",tags:["grammar","common mistakes"]},
-  {id:"GWmxcHKKUZo",title:"TOEIC Vocabulary in Context — Office",channel:"TOEIC Daily",duration:"11:20",topic:"Từ vựng văn phòng",desc:"Từ vựng TOEIC về chủ đề văn phòng và công sở trong ngữ cảnh thực.",tags:["vocabulary","office"]},
-  {id:"kXtg9hnjHKM",title:"How to Score 700+ on TOEIC",channel:"Study Hall",duration:"25:00",topic:"Chiến lược thi TOEIC",desc:"Lộ trình và chiến lược để đạt 700+ điểm TOEIC từ đầu.",tags:["strategy","tips"]}
+  // FULL TEST
+  {id:"Qp5LIsDjcjA",title:"TOEIC 2024 Full Listening & Reading Test (Answers & Tips)",channel:"TOEIC Practice",duration:"~60 phút",topic:"Full Practice Test",desc:"Đề thi TOEIC đầy đủ Listening + Reading kèm đáp án và giải thích.",skill:"full",tags:["full test","listening","reading"]},
+  {id:"ZvCmhAcn91Y",title:"TOEIC Listening & Reading 2024 — Free Practice with Answers",channel:"TOEIC Study",duration:"~55 phút",topic:"Full Practice Test",desc:"Bài luyện thi TOEIC toàn phần miễn phí kèm đáp án đầy đủ.",skill:"full",tags:["full test","2024"]},
+  {id:"Lp6QZRi3048",title:"TOEIC Full Practice Exam 2024 with Complete Answers",channel:"TOEIC Channel",duration:"~60 phút",topic:"Full Practice Test",desc:"Đề thi thực hành TOEIC 2024 đầy đủ kèm đáp án.",skill:"full",tags:["full test"]},
+  // GRAMMAR (Part 5, 6, 7)
+  {id:"W67gMISRRDY",title:"ALL Tips You Need to Pass the TOEIC Exam — Grammar",channel:"English Tips",duration:"~20 phút",topic:"Ngữ pháp TOEIC",desc:"Tổng hợp tất cả tips quan trọng giúp vượt qua kỳ thi TOEIC.",skill:"grammar",tags:["grammar","tips","part5"]},
+  {id:"mcSLkPRA2HE",title:"9 Công thức Ngữ pháp TOEIC trọng tâm Part 5 & 6",channel:"TOEIC Việt",duration:"~30 phút",topic:"Ngữ pháp Part 5+6",desc:"9 công thức ngữ pháp quan trọng nhất cho Part 5 và 6 TOEIC.",skill:"grammar",tags:["grammar","part5","part6"]},
+  {id:"-3L5HSy59tE",title:"TOEIC Reading Part 5 & 6 — 205 Real Exam Questions",channel:"TOEIC Master",duration:"~45 phút",topic:"Part 5+6 Thực hành",desc:"205 câu hỏi thực tế từ đề thi TOEIC với giải thích chi tiết.",skill:"grammar",tags:["grammar","part5","part6","practice"]},
+  {id:"qe1BvsWhmJ8",title:"Grammar & Vocabulary for TOEIC Reading Part 5",channel:"TOEIC English",duration:"~15 phút",topic:"Part 5 Grammar",desc:"Ngữ pháp và từ vựng cần thiết để làm tốt Part 5.",skill:"grammar",tags:["grammar","vocabulary","part5"]},
+  {id:"HwrZAnfW-2I",title:"TOEIC Part 5 — 24 Grammar Questions & Answers",channel:"TOEIC Practice",duration:"~20 phút",topic:"Luyện Part 5",desc:"Luyện tập 24 câu ngữ pháp Part 5 kèm đáp án và giải thích.",skill:"grammar",tags:["grammar","part5","practice"]},
+  // VOCABULARY
+  {id:"fyrdSJUYx2s",title:"Pass TOEIC: Key Tips, Vocabulary & Grammar to Know",channel:"TOEIC Tips",duration:"~25 phút",topic:"Từ vựng & Ngữ pháp",desc:"Tips, từ vựng và ngữ pháp quan trọng nhất để pass TOEIC.",skill:"vocab",tags:["vocabulary","grammar","tips"]},
+  {id:"2nd21xy4eKw",title:"TOEIC Part 5 Vocabulary — Questions & Improve English",channel:"TOEIC Study",duration:"~20 phút",topic:"Từ vựng TOEIC",desc:"Luyện từ vựng thực chiến thông qua các câu hỏi Part 5.",skill:"vocab",tags:["vocabulary","part5"]},
+  // PRONUNCIATION / WORD STRESS
+  {id:"xKncWiMbNQw",title:"The 3 Types of Word Stress — English Pronunciation",channel:"Pronunciation Guide",duration:"~10 phút",topic:"Trọng âm từ",desc:"Nắm vững 3 loại trọng âm từ trong tiếng Anh.",skill:"pronunciation",tags:["pronunciation","stress","listening"]},
+  {id:"QR50k5Kz63o",title:"Everything You Need to Know About WORD STRESS",channel:"English Mastery",duration:"~15 phút",topic:"Trọng âm từ",desc:"Toàn bộ kiến thức cần thiết về trọng âm từ tiếng Anh.",skill:"pronunciation",tags:["pronunciation","stress"]},
+  {id:"K5e9KJj2qDI",title:"Word & Sentence Stress — English Pronunciation",channel:"Clear English",duration:"~12 phút",topic:"Trọng âm từ & câu",desc:"Học trọng âm từ và câu để nghe chuẩn tiếng Anh.",skill:"pronunciation",tags:["pronunciation","stress","sentence"]},
+  {id:"bX-_YSDM7ic",title:"Word Stress & Syllables — Better Pronunciation",channel:"English Coach",duration:"~10 phút",topic:"Âm tiết & Trọng âm",desc:"Cải thiện phát âm bằng cách nắm vững âm tiết và trọng âm.",skill:"pronunciation",tags:["pronunciation","stress","syllables"]},
+  {id:"XAIoSYqzGkY",title:"Pronounce English Words Correctly — Word Stress Guide",channel:"English Pronunciation",duration:"~8 phút",topic:"Phát âm chuẩn",desc:"Hướng dẫn phát âm đúng với quy tắc trọng âm tiếng Anh.",skill:"pronunciation",tags:["pronunciation","stress"]}
 ];
 
 
@@ -1545,63 +1554,86 @@ function renderStress() {
 }
 
 // ── VIDEOS ───────────────────────────────────────────────────
+const VID_SKILLS = [
+  {key:'all',    label:'Tất cả',       icon:'🎬', badge:'blue'},
+  {key:'full',   label:'Full Test',    icon:'📝', badge:'red'},
+  {key:'grammar',label:'Ngữ pháp',     icon:'✏️', badge:'purple'},
+  {key:'vocab',  label:'Từ vựng',      icon:'📖', badge:'green'},
+  {key:'pronunciation',label:'Trọng âm',icon:'🎵',badge:'yellow'},
+];
+
 function renderVideos() {
-  const videos = lesson.videos||VIDEOS.slice(0,3);
-  const allVids = VIDEOS;
+  if(!window._vidSkill) window._vidSkill = 'all';
+  const skill = window._vidSkill;
+  const filtered = skill === 'all' ? VIDEOS : VIDEOS.filter(v => v.skill === skill);
+  const sel = window._selVid || null;
+  const selVid = sel ? VIDEOS.find(v => v.id === sel) : null;
+
   return `
-<div class="card mb-16">
-  <div class="section-title mb-4">▶️ Video hôm nay — ${lesson.topic}</div>
-  <div style="font-size:12px;color:var(--text3);margin-bottom:16px">3 video được chọn phù hợp với chủ đề và trình độ học hôm nay</div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:0">
-    ${videos.map(v=>`
-    <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all 0.15s" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'" onclick="window.open('https://www.youtube.com/watch?v=${v.id}','_blank')">
-      <div style="position:relative;background:#111;padding-top:56.25%">
-        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.25)">
-          <div style="background:rgba(255,0,0,0.9);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 12px rgba(0,0,0,0.4)">▶</div>
-        </div>
-        <div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,0.8);padding:2px 7px;border-radius:4px;font-size:10px;color:#fff;font-weight:500">${v.duration}</div>
-        <div style="position:absolute;top:6px;left:6px;background:rgba(255,0,0,0.85);padding:2px 7px;border-radius:4px;font-size:9px;color:#fff;font-weight:700">YouTube ↗</div>
-      </div>
-      <div style="padding:10px">
-        <div style="font-size:12px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:4px">${v.title}</div>
-        <div style="font-size:11px;color:var(--red);margin-bottom:6px">${v.channel}</div>
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <span class="badge badge-blue" style="font-size:10px">${v.topic}</span>
-          <span style="font-size:11px;color:var(--text3)">Mở YouTube ↗</span>
-        </div>
-      </div>
-    </div>`).join('')}
-  </div>
+<div class="sub-tabs mb-16">
+  ${VID_SKILLS.map(s=>`<button class="sub-tab${skill===s.key?' active':''}" onclick="window._vidSkill='${s.key}';render()">${s.icon} ${s.label}</button>`).join('')}
 </div>
-${window._selVid?`
-<div class="card mb-16" style="border:1px solid rgba(255,0,0,0.3)">
-  <div style="display:flex;align-items:center;gap:12px;padding:4px 0">
-    <div style="font-size:24px">▶️</div>
-    <div>
-      <div style="font-size:13px;font-weight:500;margin-bottom:4px">Đang xem: ${(VIDEOS.find(v=>v.id===window._selVid)||{}).title||''}</div>
-      <div style="font-size:12px;color:var(--text3)">Video đã mở trong tab YouTube mới</div>
-    </div>
-    <button class="btn" style="margin-left:auto;background:#ff0000;color:#fff;font-size:12px;padding:7px 14px" onclick="window.open('https://www.youtube.com/watch?v='+window._selVid,'_blank')">Mở lại ↗</button>
+
+${sel ? `
+<div class="card mb-16" style="border:1px solid rgba(59,125,216,0.3)">
+  <div style="position:relative;padding-top:56.25%;border-radius:8px;overflow:hidden;margin-bottom:14px;background:#000">
+    <iframe
+      src="https://www.youtube.com/embed/${sel}?autoplay=0&rel=0"
+      style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
   </div>
-</div>`:''}
+  ${selVid ? `
+  <div style="display:flex;align-items:flex-start;gap:12px">
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px">${selVid.title}</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:6px">${selVid.channel} · ${selVid.duration}</div>
+      <div style="font-size:12px;color:var(--text2)">${selVid.desc}</div>
+    </div>
+    <button class="btn btn-ghost" style="flex-shrink:0;font-size:12px" onclick="window._selVid=null;render()">✕ Đóng</button>
+  </div>` : ''}
+</div>` : ''}
+
 <div class="card">
-  <div class="section-title mb-12">📚 Toàn bộ playlist TOEIC</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-    ${allVids.map(v=>`
-    <div onclick="window._selVid='${v.id}';window.open('https://www.youtube.com/watch?v=${v.id}','_blank');render()" style="display:flex;gap:10px;padding:10px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all 0.15s" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="position:relative;flex-shrink:0">
-        <img src="https://img.youtube.com/vi/${v.id}/default.jpg" style="width:80px;height:45px;object-fit:cover;border-radius:4px;display:block">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <div>
+      <div class="section-title">▶️ Thư viện Video TOEIC</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:2px">${filtered.length} video • Nhấn để xem ngay trong trang</div>
+    </div>
+    ${skill!=='all'?`<span class="badge badge-${VID_SKILLS.find(s=>s.key===skill)?.badge||'blue'}">${VID_SKILLS.find(s=>s.key===skill)?.icon} ${VID_SKILLS.find(s=>s.key===skill)?.label}</span>`:''}
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    ${filtered.map(v => {
+      const isPlaying = sel === v.id;
+      const skillInfo = VID_SKILLS.find(s=>s.key===v.skill)||VID_SKILLS[0];
+      return `
+    <div onclick="window._selVid='${v.id}';render()"
+      style="display:flex;gap:12px;padding:12px;border-radius:10px;border:1px solid ${isPlaying?'var(--blue)':'var(--border)'};background:${isPlaying?'var(--blue-dim)':'var(--bg3)'};cursor:pointer;transition:all 0.15s"
+      onmouseover="this.style.background='var(--bg4)';this.style.borderColor='var(--blue)'"
+      onmouseout="this.style.background='${isPlaying?'var(--blue-dim)':'var(--bg3)'}';this.style.borderColor='${isPlaying?'var(--blue)':'var(--border)'}'" >
+      <div style="position:relative;flex-shrink:0;width:140px;height:79px;border-radius:8px;overflow:hidden;background:#111">
+        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none'">
         <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-          <div style="background:rgba(255,0,0,0.85);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:9px">▶</div>
+          <div style="background:${isPlaying?'rgba(59,125,216,0.9)':'rgba(255,0,0,0.85)'};border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.4)">${isPlaying?'⏸':'▶'}</div>
+        </div>
+        <div style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.75);padding:1px 6px;border-radius:3px;font-size:9px;color:#fff;font-weight:500">${v.duration}</div>
+      </div>
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div style="font-size:13px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${v.title}</div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:6px">${v.channel}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="badge badge-${skillInfo.badge}" style="font-size:10px">${skillInfo.icon} ${v.topic}</span>
+          ${isPlaying?`<span style="font-size:11px;color:var(--blue);font-weight:500">▶ Đang xem</span>`:`<span style="font-size:11px;color:var(--text3)">Nhấn để xem</span>`}
         </div>
       </div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:12px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.title}</div>
-        <div style="font-size:11px;color:var(--text3)">${v.duration} • ${v.channel}</div>
-        <div style="font-size:10px;color:var(--red);margin-top:2px">↗ Mở YouTube</div>
-      </div>
-    </div>`).join('')}
+    </div>`;
+    }).join('')}
   </div>
 </div>`;
 }
